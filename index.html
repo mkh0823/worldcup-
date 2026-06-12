@@ -288,16 +288,26 @@
       <div class="score-list" id="scoreList"></div>
     </div>
 
-    <!-- 인원별 투자 현황 -->
+    <!-- 토토박사 순위 -->
     <div class="section">
-      <h2>💸 인원별 투자 현황 <span class="badge">실이익 순</span></h2>
-      <div class="invest-header">
-        <div>이름</div>
-        <div style="text-align:center">배팅</div>
-        <div style="text-align:right">투자금액</div>
-        <div style="text-align:right">실이익</div>
+      <h2>📊 주만사 토토박사 순위 <span class="badge">누적 실이익 순</span></h2>
+      <div class="stats-wrap">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>순위</th>
+              <th>이름</th>
+              <th>총 배팅</th>
+              <th>적중</th>
+              <th>적중률</th>
+              <th>배팅액</th>
+              <th>상금액</th>
+              <th>실이익</th>
+            </tr>
+          </thead>
+          <tbody id="statsBody"></tbody>
+        </table>
       </div>
-      <div id="investList" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;"></div>
     </div>
 
     <!-- 역대 전적 H2H -->
@@ -350,28 +360,6 @@
       <div class="cs-icon">⏳</div>
       <h2>남아공전 준비중입니다</h2>
       <p>6/25(수) 10:00 KST · 배팅폼 오픈 예정</p>
-    </div>
-  </div>
-
-  <!-- 토토박사 순위 (항상 표시) -->
-  <div class="section" style="margin-top:24px;">
-    <h2>📊 주만사 토토박사 순위 <span class="badge">누적 실이익 순</span></h2>
-    <div class="stats-wrap">
-      <table class="stats-table">
-        <thead>
-          <tr>
-            <th>순위</th>
-            <th>이름</th>
-            <th>총 배팅</th>
-            <th>적중</th>
-            <th>적중률</th>
-            <th>배팅액</th>
-            <th>상금액</th>
-            <th>실이익</th>
-          </tr>
-        </thead>
-        <tbody id="statsBody"></tbody>
-      </table>
     </div>
   </div>
 
@@ -462,31 +450,13 @@ function render(DATA){
     </div>`;
   }).join('');
 
-  // 인원별 투자 현황 (실제 결과 반영)
+  // 토토박사 통계
   const personBets = {};
   DATA.forEach(([n,k,c])=>{
     if(!personBets[n]) personBets[n]=[];
     personBets[n].push(k+':'+c);
   });
-  const investArr = Object.entries(personBets).map(([name,bets])=>{
-    const cnt = bets.length;
-    const investment = cnt * BET_AMOUNT;
-    const won = bets.some(b => b === WIN_KEY);
-    const prize = won ? WINNER_PAYOUT : 0;
-    const net = prize - investment;
-    return {name, cnt, investment, net};
-  }).sort((a,b) => b.net - a.net);
 
-  document.getElementById('investList').innerHTML = investArr.map(r=>`
-    <div class="invest-row">
-      <div class="iv-name">${r.name}</div>
-      <div class="iv-cnt">${r.cnt}건</div>
-      <div class="iv-invest">${r.investment.toLocaleString()}원</div>
-      <div class="iv-net ${r.net>=0?'pos':'neg'}">${r.net>=0?'+':''}${r.net.toLocaleString()}원</div>
-    </div>
-  `).join('');
-
-  // 토토박사 통계
   const statsArr = Object.entries(personBets).map(([name,bets])=>{
     const totalBets = bets.length;
     const hits = bets.filter(b => b === WIN_KEY).length;
