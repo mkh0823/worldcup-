@@ -45,7 +45,8 @@
   .cd-closed{font-size:24px;font-weight:800;color:#ffd54f;padding:8px;}
 
   /* 요약 카드 */
-  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+  .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px;}
+  .card .val-sm{font-size:18px;font-weight:800;color:var(--purple-d);margin-top:4px;}
   .card{background:#fff;border-radius:18px;padding:20px;text-align:center;box-shadow:0 4px 14px rgba(80,60,140,.06);}
   .card .ico{font-size:22px;}
   .card .val{font-size:26px;font-weight:800;color:var(--purple-d);margin-top:4px;}
@@ -98,7 +99,7 @@
 
   .foot{text-align:center;font-size:11px;color:var(--muted);margin:24px 0 8px;}
   @media(max-width:680px){
-    .summary{grid-template-columns:1fr;}
+    .summary{grid-template-columns:repeat(2,1fr);}
     .facts{grid-template-columns:1fr;}
     .score-row{grid-template-columns:70px 44px 1fr;}
     .sc-payout{grid-column:1/-1;text-align:left;border-top:1px dashed var(--line);padding-top:8px;}
@@ -135,6 +136,7 @@
     <div class="card"><div class="ico">🎫</div><div class="val" id="totalBets">–</div><div class="lab">총 배팅 수</div></div>
     <div class="card"><div class="ico">💰</div><div class="val" id="totalPool">–</div><div class="lab">총 상금 풀</div></div>
     <div class="card"><div class="ico">👥</div><div class="val" id="totalPeople">–</div><div class="lab">참여 인원</div></div>
+    <div class="card"><div class="ico">🏅</div><div class="val-sm" id="topBettor">–</div><div class="lab">최다 배팅자</div></div>
   </div>
 
   <!-- SCORE -->
@@ -228,6 +230,11 @@ function render(rows){
   document.getElementById('totalPool').textContent = pool.toLocaleString()+' 원';
   document.getElementById('totalPeople').textContent = people+' 명';
   document.getElementById('upd').textContent = '갱신 '+new Date().toLocaleTimeString('ko-KR');
+
+  const betCount = {};
+  rows.forEach(([n])=>{ betCount[n]=(betCount[n]||0)+1; });
+  const top = Object.entries(betCount).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('topBettor').textContent = top ? top[0]+' ('+top[1]+'건)' : '–';
 
   // 스코어 집계
   const map = {};
