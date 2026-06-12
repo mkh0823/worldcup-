@@ -382,19 +382,43 @@
 const BET_AMOUNT = 5000;
 const WIN_KEY = '2:1';       // 최종 스코어 한국:체코
 const WINNER_PAYOUT = 35000; // 실제 지급액
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtOe2jRbxEvR0DHLe-BXhdxKWi7Opzd-mguTuhwc5pI1Tr6HCD29dQ-DO-7uNxPe6VHbbZ0PZT9oEC/pub?output=csv";
 
-const DATA = [
+const FALLBACK = [
   ["이현우",2,2],["성수환",3,1],["김태현",1,0],["박찬서",1,0],["정인서",1,0],
   ["정인서",2,1],["김원경",0,1],["이종현",2,1],["이종현",1,1],["이종현",3,1],
   ["문경환",0,0],["진솔",2,1],["김성환",1,1],["박우림",3,2],["박우림",2,1]
 ];
+
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  const rows = [];
+  for(let i=1;i<lines.length;i++){
+    const cols = lines[i].split(',').map(c=>c.trim().replace(/^"|"$/g,''));
+    const name = cols[1]||'';
+    const kor = parseInt(cols[2],10), cze = parseInt(cols[3],10);
+    if(name && !isNaN(kor) && !isNaN(cze)) rows.push([name,kor,cze]);
+  }
+  return rows;
+}
+
+async function loadData(){
+  try{
+    const res = await fetch(SHEET_CSV_URL+'&t='+Date.now());
+    const txt = await res.text();
+    const rows = parseCSV(txt);
+    render(rows.length ? rows : FALLBACK);
+  }catch(e){
+    render(FALLBACK);
+  }
+}
 
 function showTab(idx){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
 }
 
-function render(){
+function render(DATA){
   const total = DATA.length;
   const pool  = total * BET_AMOUNT;
   const people = new Set(DATA.map(r=>r[0])).size;
@@ -488,7 +512,7 @@ function render(){
   `).join('');
 }
 
-render();
+loadData();
 </script>
 </body>
 </html>
