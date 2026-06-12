@@ -78,6 +78,24 @@
   .sc-payout .pl{font-size:10px;color:var(--muted);}
   .crown{font-size:13px;}
 
+  /* 인원별 투자 현황 */
+  .invest-header{
+    display:grid;grid-template-columns:1fr 52px 96px 110px;gap:12px;
+    padding:6px 14px;font-size:11px;color:var(--muted);font-weight:700;
+  }
+  .invest-row{
+    display:grid;grid-template-columns:1fr 52px 96px 110px;align-items:center;gap:12px;
+    padding:12px 14px;border-radius:14px;background:#faf8ff;border:1px solid var(--line);
+  }
+  .iv-name{font-size:14px;font-weight:700;}
+  .iv-cnt{font-size:13px;font-weight:800;color:var(--purple);text-align:center;}
+  .iv-invest{font-size:13px;font-weight:600;color:var(--muted);text-align:right;}
+  .iv-net{font-size:15px;font-weight:800;text-align:right;}
+  .iv-net.pos{color:#2e7d32;} .iv-net.neg{color:#d32f2f;}
+  @media(max-width:480px){
+    .invest-header,.invest-row{grid-template-columns:1fr 40px 80px 88px;gap:8px;}
+  }
+
   /* 역대 전적 H2H */
   .h2h-list{display:flex;flex-direction:column;gap:8px;}
   .h2h-row{display:grid;grid-template-columns:80px 44px 70px 1fr;align-items:center;gap:12px;
@@ -143,6 +161,17 @@
   <div class="section">
     <h2>🎯 스코어별 현황 <span class="badge">한국 : 체코</span></h2>
     <div class="score-list" id="scoreList"></div>
+  </div>
+
+  <!-- 인원별 투자 현황 -->
+  <div class="section">
+    <h2>💸 인원별 투자 현황 <span class="badge">순이익 높은 순</span></h2>
+    <div class="invest-header">
+      <div>이름</div><div style="text-align:center">배팅</div>
+      <div style="text-align:right">투자금액</div>
+      <div style="text-align:right">적중 시 순이익</div>
+    </div>
+    <div class="invest-list" id="investList" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;"></div>
   </div>
 
   <!-- 역대 전적 H2H -->
@@ -259,6 +288,33 @@ function render(rows){
         <div class="sc-names">${i===0?'<span class="crown">👑</span> ':''}${r.names}</div>
       </div>
       <div class="sc-payout"><div class="p">${r.payout.toLocaleString()}원</div><div class="pl">적중 시 1인</div></div>
+    </div>
+  `).join('');
+
+  // 스코어별 배당금 맵
+  const scorePayouts = {};
+  arr.forEach(r=>{ scorePayouts[r.score] = r.payout; });
+
+  // 인원별 투자 현황
+  const personBets = {};
+  rows.forEach(([n,k,c])=>{
+    if(!personBets[n]) personBets[n]=[];
+    personBets[n].push(k+':'+c);
+  });
+  const investArr = Object.entries(personBets).map(([name,bets])=>{
+    const cnt = bets.length;
+    const investment = cnt * BET_AMOUNT;
+    const maxPayout = Math.max(...bets.map(b=>scorePayouts[b]||0));
+    const net = maxPayout - investment;
+    return {name, cnt, investment, net};
+  }).sort((a,b)=>b.net-a.net);
+
+  document.getElementById('investList').innerHTML = investArr.map(r=>`
+    <div class="invest-row">
+      <div class="iv-name">${r.name}</div>
+      <div class="iv-cnt">${r.cnt}건</div>
+      <div class="iv-invest">${r.investment.toLocaleString()}원</div>
+      <div class="iv-net ${r.net>=0?'pos':'neg'}">${r.net>=0?'+':''}${r.net.toLocaleString()}원</div>
     </div>
   `).join('');
 }
