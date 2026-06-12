@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 체코 vs 대한민국 스코어 내기</title>
+<style>
+  :root{
+    --purple:#6d44c9; --purple-d:#4e2da3; --purple-l:#efe9fb;
+    --ink:#1d1b27; --muted:#8a8499; --line:#ece8f5;
+    --korea:#c8102e; --czech:#11457e; --gold:#f5a623; --bg:#f6f4fb;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo',-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink); padding:24px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+
+  /* 헤더 */
+  .hero{
+    background:linear-gradient(135deg,var(--purple) 0%,var(--purple-d) 100%);
+    border-radius:24px;padding:32px 28px;color:#fff;text-align:center;
+    box-shadow:0 12px 32px rgba(78,45,163,.25);position:relative;overflow:hidden;
+  }
+  .hero::after{content:"⚽";position:absolute;right:-10px;bottom:-20px;font-size:120px;opacity:.08;}
+  .hero h1{font-size:26px;font-weight:800;letter-spacing:-.5px;}
+  .vs-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px;}
+  .team{font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .vs{font-size:14px;opacity:.7;font-weight:600;}
+  .updated{font-size:12px;opacity:.75;margin-top:14px;}
+
+  /* 카운트다운 */
+  .countdown{
+    margin-top:18px;background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:18px;
+    backdrop-filter:blur(4px);
+  }
+  .cd-label{font-size:12px;font-weight:700;letter-spacing:2px;opacity:.85;text-transform:uppercase;}
+  .cd-timer{display:flex;justify-content:center;gap:10px;margin-top:10px;}
+  .cd-box{background:rgba(0,0,0,.22);border-radius:12px;padding:10px 14px;min-width:64px;}
+  .cd-num{font-size:30px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;}
+  .cd-unit{font-size:11px;opacity:.8;margin-top:5px;}
+  .cd-closed{font-size:24px;font-weight:800;color:#ffd54f;padding:8px;}
+
+  /* 요약 카드 */
+  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+  .card{background:#fff;border-radius:18px;padding:20px;text-align:center;box-shadow:0 4px 14px rgba(80,60,140,.06);}
+  .card .ico{font-size:22px;}
+  .card .val{font-size:26px;font-weight:800;color:var(--purple-d);margin-top:4px;}
+  .card .lab{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  /* 섹션 */
+  .section{background:#fff;border-radius:20px;padding:24px;margin-top:18px;box-shadow:0 4px 14px rgba(80,60,140,.06);}
+  .section h2{font-size:17px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .badge{font-size:11px;background:var(--purple-l);color:var(--purple-d);padding:3px 9px;border-radius:20px;font-weight:700;}
+
+  /* 스코어 테이블 */
+  .score-list{display:flex;flex-direction:column;gap:8px;}
+  .score-row{
+    display:grid;grid-template-columns:84px 56px 1fr 120px;align-items:center;gap:12px;
+    padding:12px 14px;border-radius:14px;background:#faf8ff;border:1px solid var(--line);
+    transition:transform .15s;
+  }
+  .score-row:hover{transform:translateX(3px);}
+  .score-row.top1{background:linear-gradient(90deg,#fff6e6,#faf8ff);border-color:#ffe2a8;}
+  .sc-score{font-size:20px;font-weight:800;text-align:center;color:var(--ink);}
+  .sc-score small{font-size:10px;color:var(--muted);display:block;font-weight:600;}
+  .sc-count{text-align:center;}
+  .sc-count .n{font-size:20px;font-weight:800;color:var(--purple);}
+  .sc-bar{height:24px;background:var(--purple-l);border-radius:8px;position:relative;overflow:hidden;}
+  .sc-bar > span{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,var(--purple),var(--purple-d));border-radius:8px;}
+  .sc-names{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4;}
+  .sc-payout{text-align:right;}
+  .sc-payout .p{font-size:16px;font-weight:800;color:var(--korea);}
+  .sc-payout .pl{font-size:10px;color:var(--muted);}
+  .crown{font-size:13px;}
+
+  /* 역대 전적 H2H */
+  .h2h-list{display:flex;flex-direction:column;gap:8px;}
+  .h2h-row{display:grid;grid-template-columns:80px 44px 70px 1fr;align-items:center;gap:12px;
+    padding:11px 14px;background:#faf8ff;border:1px solid var(--line);border-radius:12px;}
+  .h2h-yr{font-size:12px;color:var(--muted);font-weight:700;}
+  .h2h-res{font-size:13px;font-weight:800;text-align:center;border-radius:6px;padding:3px 0;color:#fff;}
+  .h2h-res.w{background:#2e7d32;}
+  .h2h-res.d{background:#9e9e9e;}
+  .h2h-res.l{background:#d32f2f;}
+  .h2h-sc{font-size:17px;font-weight:800;text-align:center;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .h2h-desc{font-size:12px;color:#555;}
+  .h2h-note{margin-top:12px;font-size:12px;color:var(--purple-d);background:var(--purple-l);padding:10px 14px;border-radius:10px;text-align:center;font-weight:600;}
+
+  /* 전력분석 */
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}  .fact{padding:14px;background:#f7f9fc;border-radius:12px;border-left:3px solid var(--czech);}
+  .fact .ft{font-size:12px;font-weight:700;color:var(--czech);margin-bottom:4px;}
+  .fact .fv{font-size:13px;color:#444;line-height:1.45;}
+  .disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:14px;}
+
+  .foot{text-align:center;font-size:11px;color:var(--muted);margin:24px 0 8px;}
+  @media(max-width:680px){
+    .summary{grid-template-columns:1fr;}
+    .facts{grid-template-columns:1fr;}
+    .score-row{grid-template-columns:70px 44px 1fr;}
+    .sc-payout{grid-column:1/-1;text-align:left;border-top:1px dashed var(--line);padding-top:8px;}
+    .sc-payout .p{color:var(--korea);}
+    .h2h-row{grid-template-columns:60px 40px 60px 1fr;gap:8px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>🏆 스코어 맞추기 내기</h1>
+    <div class="vs-row">
+      <span class="team">🇨🇿 체코</span>
+      <span class="vs">VS</span>
+      <span class="team">대한민국 🇰🇷</span>
+    </div>
+    <div class="countdown">
+      <div class="cd-label">⏰ 배팅 마감까지</div>
+      <div class="cd-timer" id="timer">
+        <div class="cd-box"><div class="cd-num" id="d">--</div><div class="cd-unit">일</div></div>
+        <div class="cd-box"><div class="cd-num" id="h">--</div><div class="cd-unit">시간</div></div>
+        <div class="cd-box"><div class="cd-num" id="m">--</div><div class="cd-unit">분</div></div>
+        <div class="cd-box"><div class="cd-num" id="s">--</div><div class="cd-unit">초</div></div>
+      </div>
+    </div>
+    <div class="updated">마감 6/12(금) 10:59:59 · 킥오프 11:00 KST · <span id="upd"></span></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="card"><div class="ico">🎫</div><div class="val" id="totalBets">–</div><div class="lab">총 배팅 수</div></div>
+    <div class="card"><div class="ico">💰</div><div class="val" id="totalPool">–</div><div class="lab">총 상금 풀</div></div>
+    <div class="card"><div class="ico">👥</div><div class="val" id="totalPeople">–</div><div class="lab">참여 인원</div></div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="section">
+    <h2>🎯 스코어별 현황 <span class="badge">한국 : 체코</span></h2>
+    <div class="score-list" id="scoreList"></div>
+  </div>
+
+  <!-- 역대 전적 H2H -->
+  <div class="section">
+    <h2>⚔️ 역대 전적 <span class="badge">통산 5전 1승 2무 2패</span></h2>
+    <div class="h2h-list">
+      <div class="h2h-row"><span class="h2h-yr">2016.06</span><span class="h2h-res w">승</span><span class="h2h-sc">2 : 1</span><span class="h2h-desc">친선 (체코 원정) · 한국 첫 체코전 승리</span></div>
+      <div class="h2h-row"><span class="h2h-yr">2001.06</span><span class="h2h-res l">패</span><span class="h2h-sc">0 : 5</span><span class="h2h-desc">친선 · 히딩크 '오대영' 별명 유래한 참패</span></div>
+      <div class="h2h-row"><span class="h2h-yr">1998.05</span><span class="h2h-res d">무</span><span class="h2h-sc">2 : 2</span><span class="h2h-desc">프랑스 WC 대비 평가전</span></div>
+      <div class="h2h-row"><span class="h2h-yr">1990년대</span><span class="h2h-res d">무</span><span class="h2h-sc">– : –</span><span class="h2h-desc">친선 · 무승부</span></div>
+      <div class="h2h-row"><span class="h2h-yr">1990년대</span><span class="h2h-res l">패</span><span class="h2h-sc">– : –</span><span class="h2h-desc">친선 · 패배</span></div>
+    </div>
+    <div class="h2h-note">📌 월드컵 본선에서는 이번이 <b>첫 맞대결</b> · 최근 대결은 10년 전(2016년)</div>
+  </div>
+
+  <!-- 전력분석 -->
+  <div class="section">
+    <h2>📋 전력 분석 & 최신 소식 <span class="badge">중립 팩트 · 예측 없음</span></h2>
+    <div class="facts">
+      <div class="fact"><div class="ft">📰 전문가 예측</div><div class="fv">BBC 크리스 서턴 1:1 무 · BBC AI도 1:1 · CBS 2:2 무 · 박문성 위원 한국 1:0 승</div></div>
+      <div class="fact"><div class="ft">🎰 해외 베팅사 배당</div><div class="fv">윌리엄힐: 한국승 13/8 · 무 2/1 · 체코승 7/4 (양팀 거의 동일, 박빙)</div></div>
+      <div class="fact"><div class="ft">📊 승부 확률 모델</div><div class="fv">스포티트레이더: 한국 48.7% · 체코 29.7% · 무 21.6%</div></div>
+      <div class="fact"><div class="ft">⛰️ 고지대 변수</div><div class="fv">과달라하라 해발 1570m. 한국은 솔트레이크시티서 사전적응, 체코는 늦은 진출로 적응 불리</div></div>
+      <div class="fact"><div class="ft">🚑 부상 변수</div><div class="fv">한국: 김태현 경기 24시간 전 부상 악재 / 배준호 발목 출전 불투명. 체코: 부상자 없음</div></div>
+      <div class="fact"><div class="ft">🇰🇷 한국 예상 라인업</div><div class="fv">3-4-3: 김승규-김민재·이기혁·이한범-김문환·김진규·백승호·카스트롭-황희찬·이재성·손흥민</div></div>
+      <div class="fact"><div class="ft">🇨🇿 체코 예상 라인업</div><div class="fv">3-4-2-1: 코바르-흐라나치·할루펙·크레이치-쿠팔 등-흘로제크·시크(191cm)</div></div>
+      <div class="fact"><div class="ft">⚔️ 역대 전적</div><div class="fv">5전 1승 2무 2패 · 최근 2016년 한국 2:1 승 (10년 전) · WC 첫 맞대결</div></div>
+      <div class="fact"><div class="ft">🔥 최근폼</div><div class="fv">한국: 트리니다드토바고 5:0, 엘살바도르 1:0 승 / 체코: 코소보 2:1, 과테말라 3:1 승</div></div>
+      <div class="fact"><div class="ft">📺 중계</div><div class="fv">6/12(금) 11:00 KST · KBS·JTBC·치지직 · 과달라하라 스타디움</div></div>
+      <div class="fact"><div class="ft">📈 WC 1차전 통계</div><div class="fv">2022 기준 경기당 평균 2.56골 · 무득점(0:0) 비율 25%</div></div>
+      <div class="fact"><div class="ft">🎯 징크스</div><div class="fv">한국, 1차전 무실점 시 모두 상위 라운드 진출 / 같은조 유럽 PO팀은 모두 격파한 전적</div></div>
+    </div>
+    <div class="disclaimer">※ 본 활동은 동료애 기반 친목 점수예측입니다. 통계·배당·예측은 참고용이며 결과를 보장하지 않습니다 😎</div>
+  </div>
+
+  <div class="foot">잃어도 웃고, 따도 자랑 안 하기 · 주만사 사내 이벤트</div>
+</div>
+
+<script>
+/* ===================== 설정 ===================== */
+// 킥오프(마감) — 한국시간 6/12 11:00:00
+const DEADLINE = new Date('2026-06-12T11:00:00+09:00');
+const BET_AMOUNT = 5000;
+
+// 구글시트 CSV URL (연동 시 여기에 붙여넣기. 비워두면 아래 기본 데이터 사용)
+// 설정법: 시트 > 파일 > 공유 > 웹에 게시 > '설문지 응답 시트1' CSV 선택 > URL 복사
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtOe2jRbxEvR0DHLe-BXhdxKWi7Opzd-mguTuhwc5pI1Tr6HCD29dQ-DO-7uNxPe6VHbbZ0PZT9oEC/pub?output=csv";
+const REFRESH_MS = 5000; // 데이터 갱신 주기 (5초)
+
+// 연동 전 기본 데이터 (현재 15건) — [이름, 한국, 체코]
+const FALLBACK = [
+  ["이현우",2,2],["성수환",3,1],["김태현",1,0],["박찬서",1,0],["정인서",1,0],
+  ["정인서",2,1],["김원경",0,1],["이종현",2,1],["이종현",1,1],["이종현",3,1],
+  ["문경환",0,0],["진솔",2,1],["김성환",1,1],["박우림",3,2],["박우림",2,1]
+];
+
+/* ===================== 카운트다운 ===================== */
+function tick(){
+  const now = new Date();
+  let diff = Math.floor((DEADLINE - now)/1000);
+  const t = document.getElementById('timer');
+  if(diff <= 0){
+    t.innerHTML = '<div class="cd-closed">⛔ 배팅이 마감되었습니다</div>';
+    return;
+  }
+  const d = Math.floor(diff/86400); diff%=86400;
+  const h = Math.floor(diff/3600); diff%=3600;
+  const m = Math.floor(diff/60);
+  const s = diff%60;
+  const p = n => String(n).padStart(2,'0');
+  document.getElementById('d').textContent = d;
+  document.getElementById('h').textContent = p(h);
+  document.getElementById('m').textContent = p(m);
+  document.getElementById('s').textContent = p(s);
+}
+setInterval(tick,1000); tick();
+
+/* ===================== 데이터 렌더 ===================== */
+function render(rows){
+  // rows: [[name,kor,cze],...]
+  const total = rows.length;
+  const pool = total*BET_AMOUNT;
+  const people = new Set(rows.map(r=>r[0])).size;
+  document.getElementById('totalBets').textContent = total+' 건';
+  document.getElementById('totalPool').textContent = pool.toLocaleString()+' 원';
+  document.getElementById('totalPeople').textContent = people+' 명';
+  document.getElementById('upd').textContent = '갱신 '+new Date().toLocaleTimeString('ko-KR');
+
+  // 스코어 집계
+  const map = {};
+  rows.forEach(([n,k,c])=>{
+    const key = k+':'+c;
+    if(!map[key]) map[key]={count:0,names:[]};
+    map[key].count++; map[key].names.push(n);
+  });
+  const arr = Object.entries(map).map(([score,v])=>({
+    score, count:v.count, names:v.names.join(', '),
+    payout: Math.floor(pool/v.count)
+  })).sort((a,b)=>b.count-a.count);
+
+  const maxC = arr.length?arr[0].count:1;
+  const list = document.getElementById('scoreList');
+  list.innerHTML = arr.map((r,i)=>`
+    <div class="score-row ${i===0?'top1':''}">
+      <div class="sc-score">${r.score}<small>한국:체코</small></div>
+      <div class="sc-count"><span class="n">${r.count}</span></div>
+      <div>
+        <div class="sc-bar"><span style="width:${Math.round(r.count/maxC*100)}%"></span></div>
+        <div class="sc-names">${i===0?'<span class="crown">👑</span> ':''}${r.names}</div>
+      </div>
+      <div class="sc-payout"><div class="p">${r.payout.toLocaleString()}원</div><div class="pl">적중 시 1인</div></div>
+    </div>
+  `).join('');
+}
+
+/* ===================== 시트 연동 ===================== */
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  const rows = [];
+  for(let i=1;i<lines.length;i++){ // 0행 헤더 스킵
+    const cols = lines[i].split(',');
+    // 열: A타임스탬프 B이름 C한국 D체코
+    const name=(cols[1]||'').trim();
+    const kor=parseInt(cols[2],10), cze=parseInt(cols[3],10);
+    if(name && !isNaN(kor) && !isNaN(cze)) rows.push([name,kor,cze]);
+  }
+  return rows;
+}
+async function loadData(){
+  if(!SHEET_CSV_URL){render(FALLBACK);return;}
+  try{
+    // 캐시 우회를 위해 타임스탬프 파라미터 추가
+    const url = SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?')>-1?'&':'?') + 't=' + Date.now();
+    const res = await fetch(url);
+    const txt = await res.text();
+    const rows = parseCSV(txt);
+    render(rows.length?rows:FALLBACK);
+  }catch(e){
+    console.warn('시트 연동 실패, 기본 데이터 사용:',e);
+    render(FALLBACK);
+  }
+}
+loadData();
+// 시트 연동 시 주기적으로 자동 갱신
+if(SHEET_CSV_URL) setInterval(loadData, REFRESH_MS);
+</script>
+</body>
+</html>
