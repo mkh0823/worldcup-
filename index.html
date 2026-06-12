@@ -267,10 +267,10 @@ function render(rows){
 function parseCSV(text){
   const lines = text.trim().split('\n');
   const rows = [];
-  for(let i=1;i<lines.length;i++){ // 0행 헤더 스킵
-    const cols = lines[i].split(',');
-    // 열: A타임스탬프 B이름 C한국 D체코
-    const name=(cols[1]||'').trim();
+  for(let i=1;i<lines.length;i++){
+    // 따옴표 제거 후 분리 (구글시트는 필드를 "값" 형태로 감쌈)
+    const cols = lines[i].split(',').map(c=>c.trim().replace(/^"|"$/g,''));
+    const name=cols[1]||'';
     const kor=parseInt(cols[2],10), cze=parseInt(cols[3],10);
     if(name && !isNaN(kor) && !isNaN(cze)) rows.push([name,kor,cze]);
   }
