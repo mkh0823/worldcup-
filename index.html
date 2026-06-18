@@ -23,437 +23,244 @@
   --text:    #0D1B3E;
   --muted:   #6B7490;
   --line:    #DDE3EF;
-  --shadow:  0 2px 18px rgba(0,20,70,.10);
   --shadow-sm: 0 1px 8px rgba(0,20,70,.07);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: 'Barlow', 'Pretendard', 'Apple SD Gothic Neo', -apple-system, sans-serif;
   background: var(--bg); color: var(--text);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; -webkit-font-smoothing: antialiased;
 }
 
-/* ───── 상단 헤더 ───── */
-.page-header {
-  background: var(--dark);
-  padding: 14px 24px;
+/* ── 상단 헤더 ── */
+.page-header { background: var(--dark); padding: 14px 24px; }
+.page-header-inner {
+  max-width: 1080px; margin: 0 auto; width: 100%;
   display: flex; align-items: center; justify-content: space-between;
 }
-.page-header-inner { max-width: 1080px; margin: 0 auto; width: 100%;
-  display: flex; align-items: center; justify-content: space-between; }
-.header-brand {
-  display: flex; align-items: center; gap: 12px;
-}
+.header-brand { display: flex; align-items: center; gap: 12px; }
 .header-logo {
   width: 36px; height: 36px; background: var(--gold-y);
-  border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;
 }
-.header-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px; font-weight: 900; color: #fff; letter-spacing: .5px;
-}
+.header-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; color:#fff; letter-spacing:.5px; }
 .header-title span { color: var(--gold-y); }
-.header-meta {
-  font-size: 11px; color: rgba(255,255,255,.5);
-  font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-}
+.header-meta { font-size:11px; color:rgba(255,255,255,.5); font-weight:700; letter-spacing:1px; text-transform:uppercase; }
 .fifa-badge {
-  background: linear-gradient(135deg, #0057A8, #003087);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 8px; padding: 6px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 1px;
-  text-transform: uppercase;
+  background: linear-gradient(135deg,#0057A8,#003087);
+  border: 1px solid rgba(255,255,255,.15); border-radius:8px; padding:6px 14px;
+  font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; color:#fff;
+  letter-spacing:1px; text-transform:uppercase;
 }
 
-.wrap { max-width: 1080px; margin: 0 auto; padding: 20px 20px 40px; }
+.wrap { max-width:1080px; margin:0 auto; padding:20px 20px 40px; }
 
-/* ───── 탭 ───── */
-.tabs-container {
-  background: var(--dark);
-  border-radius: 14px 14px 0 0;
-  overflow: hidden;
-  display: flex;
-}
+/* ── 탭 ── */
+.tabs-container { background:var(--dark); border-radius:14px 14px 0 0; overflow:hidden; display:flex; }
 .tab {
-  flex: 1; padding: 15px 10px; border: none; background: transparent;
-  cursor: pointer; transition: background .2s;
-  border-right: 1px solid rgba(255,255,255,.06);
-  text-align: center; position: relative;
+  flex:1; padding:15px 10px; border:none; background:transparent;
+  cursor:pointer; transition:background .2s;
+  border-right:1px solid rgba(255,255,255,.06);
+  text-align:center; position:relative;
 }
-.tab:last-child { border-right: none; }
-.tab::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 3px; background: transparent; transition: background .2s;
-}
-.tab:hover { background: rgba(255,255,255,.06); }
-.tab.active { background: rgba(255,255,255,.08); }
-.tab.active::after { background: var(--gold-y); }
-.tab .t-date {
-  font-size: 10px; color: rgba(255,255,255,.5); display: block;
-  font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
-}
-.tab .t-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px; font-weight: 800; color: #fff;
-  display: block; margin-top: 3px; letter-spacing: .3px;
-}
-.tab-pill {
-  display: inline-block; font-size: 10px; font-weight: 700;
-  padding: 2px 8px; border-radius: 3px; margin-top: 5px;
-  letter-spacing: .5px; text-transform: uppercase;
-}
-.tab-pill.done  { background: var(--green); color: #fff; }
-.tab-pill.soon  { background: rgba(255,255,255,.1); color: rgba(255,255,255,.5); }
+.tab:last-child { border-right:none; }
+.tab::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:transparent; transition:background .2s; }
+.tab:hover { background:rgba(255,255,255,.06); }
+.tab.active { background:rgba(255,255,255,.08); }
+.tab.active::after { background:var(--gold-y); }
+.tab .t-date { font-size:10px; color:rgba(255,255,255,.5); display:block; font-weight:700; letter-spacing:.5px; text-transform:uppercase; }
+.tab .t-name { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; color:#fff; display:block; margin-top:3px; letter-spacing:.3px; }
+.tab-pill { display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; margin-top:5px; letter-spacing:.5px; text-transform:uppercase; }
+.tab-pill.done { background:var(--green); color:#fff; }
+.tab-pill.live { background:#E53935; color:#fff; animation: pulse-pill 2s infinite; }
+.tab-pill.soon { background:rgba(255,255,255,.1); color:rgba(255,255,255,.5); }
+@keyframes pulse-pill { 0%,100%{opacity:1} 50%{opacity:.6} }
 
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
 
-/* ───── 히어로 ───── */
+/* ── 히어로 (공통) ── */
 .hero {
-  background: linear-gradient(160deg, #001438 0%, #002060 50%, #003087 100%);
-  border-radius: 0 0 0 0;
-  padding: 40px 32px 36px;
-  color: #fff;
-  position: relative; overflow: hidden;
+  background:linear-gradient(160deg,#001438 0%,#002060 50%,#003087 100%);
+  padding:40px 32px 36px; color:#fff; position:relative; overflow:hidden;
 }
-.hero::before {
-  content: '';
-  position: absolute; top: -60px; right: -60px;
-  width: 300px; height: 300px;
-  border: 40px solid rgba(255,255,255,.04);
-  border-radius: 50%;
-}
-.hero::after {
-  content: '';
-  position: absolute; bottom: -80px; left: -40px;
-  width: 240px; height: 240px;
-  border: 30px solid rgba(245,197,24,.06);
-  border-radius: 50%;
-}
-.hero-eyebrow {
-  display: flex; align-items: center; justify-content: center;
-  gap: 10px; margin-bottom: 28px; position: relative; z-index: 1;
-}
-.hero-eyebrow-text {
-  font-size: 11px; font-weight: 700; letter-spacing: 3px;
-  text-transform: uppercase; color: rgba(255,255,255,.6);
-}
-.hero-eyebrow-dot {
-  width: 4px; height: 4px; border-radius: 50%; background: var(--gold-y);
-}
-.match-layout {
-  display: flex; align-items: center; justify-content: center;
-  gap: 20px; position: relative; z-index: 1;
-}
-.match-team {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 10px; flex: 1; max-width: 200px;
-}
-.t-flag { font-size: 52px; line-height: 1; }
-.t-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px; font-weight: 900; letter-spacing: 1px;
-  text-transform: uppercase; text-align: center;
-}
-.score-center {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 8px; min-width: 120px;
-}
+.hero::before { content:''; position:absolute; top:-60px; right:-60px; width:300px; height:300px; border:40px solid rgba(255,255,255,.04); border-radius:50%; }
+.hero::after  { content:''; position:absolute; bottom:-80px; left:-40px; width:240px; height:240px; border:30px solid rgba(245,197,24,.06); border-radius:50%; }
+.hero-eyebrow { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:28px; position:relative; z-index:1; }
+.hero-eyebrow-text { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,.6); }
+.hero-eyebrow-dot { width:4px; height:4px; border-radius:50%; background:var(--gold-y); }
+.match-layout { display:flex; align-items:center; justify-content:center; gap:20px; position:relative; z-index:1; }
+.match-team { display:flex; flex-direction:column; align-items:center; gap:10px; flex:1; max-width:200px; }
+.t-flag { font-size:52px; line-height:1; }
+.t-name { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; letter-spacing:1px; text-transform:uppercase; text-align:center; }
+.score-center { display:flex; flex-direction:column; align-items:center; gap:8px; min-width:120px; }
 .score-num {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 72px; font-weight: 900; line-height: 1;
-  letter-spacing: -3px; font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, #fff 50%, rgba(255,255,255,.55));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family:'Barlow Condensed',sans-serif; font-size:72px; font-weight:900; line-height:1;
+  letter-spacing:-3px; font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#fff 50%,rgba(255,255,255,.55));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
 }
-.result-chip {
-  background: var(--green); color: #fff;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px; font-weight: 800; padding: 4px 14px;
-  border-radius: 4px; letter-spacing: 1px; text-transform: uppercase;
-}
-.hero-footer {
-  text-align: center; font-size: 12px; color: rgba(255,255,255,.5);
-  margin-top: 24px; position: relative; z-index: 1;
-  font-weight: 600; letter-spacing: .3px;
-}
-.hero-divider {
-  display: inline-block; margin: 0 10px; opacity: .4;
-}
+.result-chip { background:var(--green); color:#fff; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:800; padding:4px 14px; border-radius:4px; letter-spacing:1px; text-transform:uppercase; }
+.hero-footer { text-align:center; font-size:12px; color:rgba(255,255,255,.5); margin-top:24px; position:relative; z-index:1; font-weight:600; }
+.hero-divider { display:inline-block; margin:0 10px; opacity:.4; }
 
-/* ───── 서머리 카드 ───── */
-.summary {
-  display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
-  margin-top: 16px;
+/* ── 카운트다운 (멕시코용) ── */
+.countdown-box {
+  margin-top:24px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+  border-radius:14px; padding:18px 24px; position:relative; z-index:1;
+  backdrop-filter:blur(4px);
 }
-.stat-card {
-  background: var(--white); border-radius: 12px;
-  padding: 18px 16px 16px; text-align: center;
-  box-shadow: var(--shadow-sm);
-  border-top: 3px solid var(--navy);
-}
-.stat-card .s-ico { font-size: 18px; }
-.stat-card .s-val {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 28px; font-weight: 900; color: var(--dark);
-  margin-top: 6px; line-height: 1;
-}
-.stat-card .s-val-sm {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 19px; font-weight: 800; color: var(--dark);
-  margin-top: 6px; line-height: 1.2;
-}
-.stat-card .s-lab {
-  font-size: 10px; color: var(--muted); margin-top: 5px;
-  font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
-}
+.cd-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.7); text-align:center; margin-bottom:14px; }
+.cd-timer { display:flex; justify-content:center; gap:10px; }
+.cd-unit { background:rgba(0,0,0,.25); border-radius:10px; padding:10px 16px; min-width:68px; text-align:center; }
+.cd-num { font-family:'Barlow Condensed',sans-serif; font-size:34px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; }
+.cd-lbl { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,.6); margin-top:4px; }
+.cd-closed { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; color:#FF8A80; text-align:center; padding:10px; }
 
-/* ───── 당첨자 ───── */
-.winner-section {
-  background: var(--gold-l); border: 1.5px solid #E0C060;
-  border-radius: 14px; padding: 22px; margin-top: 16px;
+/* ── 라이브 배지 ── */
+.live-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(229,57,53,.2); border:1px solid rgba(229,57,53,.5);
+  color:#FF8A80; border-radius:20px; padding:4px 12px; font-size:12px; font-weight:700;
+  position:relative; z-index:1; margin-top:16px;
 }
-.winner-header {
-  display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
-  margin-bottom: 16px;
-}
-.winner-header h2 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 22px; font-weight: 900; color: #7A5500; letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.win-score-chip {
-  background: var(--gold); color: #fff;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px; font-weight: 800; padding: 4px 14px;
-  border-radius: 4px; letter-spacing: 1.5px;
-}
-.winners-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-.winner-card {
-  background: var(--white); border-radius: 10px; padding: 16px 10px;
-  text-align: center; border: 1.5px solid #E0C060;
-  box-shadow: 0 3px 10px rgba(176,134,0,.12);
-}
-.winner-card .wname {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px; font-weight: 900; color: var(--dark); letter-spacing: .5px;
-}
-.winner-card .wamount {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 24px; font-weight: 900; color: var(--green); margin-top: 6px;
-}
-.winner-card .wlabel { font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 600; }
+.live-dot { width:7px; height:7px; border-radius:50%; background:#FF5252; animation:blink 1.2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-/* ───── 공통 섹션 ───── */
-.section {
-  background: var(--white); border-radius: 14px;
-  padding: 22px; margin-top: 16px;
-  box-shadow: var(--shadow-sm);
+/* ── 갱신 버튼 ── */
+.refresh-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:transparent; border:1.5px solid var(--line);
+  border-radius:8px; padding:6px 14px; cursor:pointer;
+  font-size:12px; font-weight:700; color:var(--muted);
+  transition:all .2s;
 }
-.section-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px; padding-bottom: 14px;
-  border-bottom: 1.5px solid var(--line);
-}
-.section-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px; font-weight: 900; color: var(--dark);
-  letter-spacing: .5px; text-transform: uppercase;
-  display: flex; align-items: center; gap: 8px;
-}
-.sec-badge {
-  font-size: 10px; background: var(--navy); color: #fff;
-  padding: 3px 8px; border-radius: 3px; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  font-family: 'Barlow', sans-serif;
-}
-.sec-badge.green { background: var(--green); }
+.refresh-btn:hover { border-color:var(--navy); color:var(--navy); background:var(--blue-l); }
+.refresh-btn.spinning span { display:inline-block; animation:spin .7s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
 
-/* ───── 스코어 테이블 ───── */
-.score-list { display: flex; flex-direction: column; gap: 6px; }
+/* ── 서머리 카드 ── */
+.summary { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px; }
+.stat-card { background:var(--white); border-radius:12px; padding:18px 16px 16px; text-align:center; box-shadow:var(--shadow-sm); border-top:3px solid var(--navy); }
+.stat-card .s-ico { font-size:18px; }
+.stat-card .s-val { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; color:var(--dark); margin-top:6px; line-height:1; }
+.stat-card .s-val-sm { font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:800; color:var(--dark); margin-top:6px; line-height:1.2; }
+.stat-card .s-lab { font-size:10px; color:var(--muted); margin-top:5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; }
+
+/* ── 당첨자 ── */
+.winner-section { background:var(--gold-l); border:1.5px solid #E0C060; border-radius:14px; padding:22px; margin-top:16px; }
+.winner-header { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+.winner-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#7A5500; letter-spacing:.5px; text-transform:uppercase; }
+.win-score-chip { background:var(--gold); color:#fff; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:800; padding:4px 14px; border-radius:4px; letter-spacing:1.5px; }
+.winners-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.winner-card { background:var(--white); border-radius:10px; padding:16px 10px; text-align:center; border:1.5px solid #E0C060; box-shadow:0 3px 10px rgba(176,134,0,.12); }
+.winner-card .wname { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; color:var(--dark); }
+.winner-card .wamount { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; color:var(--green); margin-top:6px; }
+.winner-card .wlabel { font-size:11px; color:var(--muted); margin-top:3px; font-weight:600; }
+
+/* ── 공통 섹션 ── */
+.section { background:var(--white); border-radius:14px; padding:22px; margin-top:16px; box-shadow:var(--shadow-sm); }
+.section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; padding-bottom:14px; border-bottom:1.5px solid var(--line); }
+.section-title { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:900; color:var(--dark); letter-spacing:.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+.sec-badge { font-size:10px; background:var(--navy); color:#fff; padding:3px 8px; border-radius:3px; font-weight:700; letter-spacing:1px; text-transform:uppercase; font-family:'Barlow',sans-serif; }
+.sec-badge.green { background:var(--green); }
+
+/* ── 스코어 테이블 ── */
+.score-list { display:flex; flex-direction:column; gap:6px; }
 .score-row {
-  display: grid; grid-template-columns: 90px 52px 1fr 112px;
-  align-items: center; gap: 14px;
-  padding: 12px 16px; border-radius: 10px;
-  background: #F7F9FD; border: 1.5px solid var(--line);
-  transition: transform .15s, box-shadow .15s;
+  display:grid; grid-template-columns:90px 52px 1fr 112px;
+  align-items:center; gap:14px; padding:12px 16px; border-radius:10px;
+  background:#F7F9FD; border:1.5px solid var(--line); transition:transform .15s, box-shadow .15s;
 }
-.score-row:hover { transform: translateX(4px); box-shadow: var(--shadow-sm); }
-.score-row.winner-score {
-  background: var(--green-l); border-color: #6EC48A; border-width: 2px;
-}
-.sc-score {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 24px; font-weight: 900; text-align: center;
-  color: var(--dark); letter-spacing: 1px;
-}
-.sc-score small {
-  font-size: 9px; color: var(--muted); display: block;
-  font-weight: 600; font-family: 'Barlow', sans-serif;
-  letter-spacing: .3px; text-transform: uppercase;
-}
-.sc-count { text-align: center; }
-.sc-count .n {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 24px; font-weight: 900; color: var(--navy);
-}
-.sc-bar { height: 22px; background: #E5EAF5; border-radius: 5px; position: relative; overflow: hidden; }
-.sc-bar > span {
-  position: absolute; left: 0; top: 0; height: 100%;
-  background: linear-gradient(90deg, var(--navy), var(--blue));
-  border-radius: 5px; transition: width .6s ease;
-}
-.sc-bar.win > span { background: linear-gradient(90deg, var(--green), #43A047); }
-.sc-names { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
-.sc-payout { text-align: right; }
-.sc-payout .p {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px; font-weight: 900; color: var(--red);
-}
-.sc-payout .p.win { color: var(--green); }
-.sc-payout .pl { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: .3px; }
+.score-row:hover { transform:translateX(4px); box-shadow:var(--shadow-sm); }
+.score-row.winner-score { background:var(--green-l); border-color:#6EC48A; border-width:2px; }
+.sc-score { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; text-align:center; color:var(--dark); letter-spacing:1px; }
+.sc-score small { font-size:9px; color:var(--muted); display:block; font-weight:600; font-family:'Barlow',sans-serif; letter-spacing:.3px; text-transform:uppercase; }
+.sc-count { text-align:center; }
+.sc-count .n { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; color:var(--navy); }
+.sc-bar { height:22px; background:#E5EAF5; border-radius:5px; position:relative; overflow:hidden; }
+.sc-bar > span { position:absolute; left:0; top:0; height:100%; background:linear-gradient(90deg,var(--navy),var(--blue)); border-radius:5px; transition:width .6s ease; }
+.sc-bar.win > span { background:linear-gradient(90deg,var(--green),#43A047); }
+.sc-names { font-size:12px; color:var(--muted); margin-top:4px; line-height:1.4; }
+.sc-payout { text-align:right; }
+.sc-payout .p { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:900; color:var(--red); }
+.sc-payout .p.win { color:var(--green); }
+.sc-payout .pl { font-size:10px; color:var(--muted); font-weight:600; }
 
-/* ───── 토토박사 테이블 ───── */
-.stats-wrap { overflow-x: auto; border-radius: 10px; border: 1.5px solid var(--line); }
-.stats-table { width: 100%; border-collapse: collapse; min-width: 520px; }
-.stats-table thead tr { background: var(--dark); }
-.stats-table th {
-  padding: 12px 14px; font-size: 10px; font-weight: 700;
-  text-align: center; color: rgba(255,255,255,.7);
-  letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap;
-}
-.stats-table th:nth-child(2) { text-align: left; }
-.stats-table th:first-child { border-radius: 8px 0 0 0; }
-.stats-table th:last-child  { border-radius: 0 8px 0 0; }
-.stats-table td {
-  padding: 13px 14px; font-size: 13px;
-  border-bottom: 1px solid var(--line);
-  text-align: center; white-space: nowrap;
-  background: var(--white);
-}
-.stats-table td:nth-child(2) { text-align: left; font-weight: 700; font-size: 14px; }
-.stats-table tr:nth-child(even) td { background: #F7F9FD; }
-.stats-table tr:last-child td { border-bottom: none; }
-.stats-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
-.stats-table tr:last-child td:last-child  { border-radius: 0 0 8px 0; }
-.stats-table tr:hover td { background: var(--blue-l) !important; }
-.s-rank { font-size: 18px; }
-.profit-pos { color: var(--green); font-weight: 800; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; }
-.profit-neg { color: var(--red);   font-weight: 800; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; }
+/* ── 토토박사 테이블 ── */
+.stats-wrap { overflow-x:auto; border-radius:10px; border:1.5px solid var(--line); }
+.stats-table { width:100%; border-collapse:collapse; min-width:520px; }
+.stats-table thead tr { background:var(--dark); }
+.stats-table th { padding:12px 14px; font-size:10px; font-weight:700; text-align:center; color:rgba(255,255,255,.7); letter-spacing:1.2px; text-transform:uppercase; white-space:nowrap; }
+.stats-table th:nth-child(2) { text-align:left; }
+.stats-table th:first-child { border-radius:8px 0 0 0; }
+.stats-table th:last-child  { border-radius:0 8px 0 0; }
+.stats-table td { padding:13px 14px; font-size:13px; border-bottom:1px solid var(--line); text-align:center; white-space:nowrap; background:var(--white); }
+.stats-table td:nth-child(2) { text-align:left; font-weight:700; font-size:14px; }
+.stats-table tr:nth-child(even) td { background:#F7F9FD; }
+.stats-table tr:last-child td { border-bottom:none; }
+.stats-table tr:last-child td:first-child { border-radius:0 0 0 8px; }
+.stats-table tr:last-child td:last-child  { border-radius:0 0 8px 0; }
+.stats-table tr:hover td { background:var(--blue-l) !important; }
+.s-rank { font-size:18px; }
+.profit-pos { color:var(--green); font-weight:800; font-family:'Barlow Condensed',sans-serif; font-size:15px; }
+.profit-neg { color:var(--red);   font-weight:800; font-family:'Barlow Condensed',sans-serif; font-size:15px; }
 
-/* ───── H2H ───── */
-.h2h-list { display: flex; flex-direction: column; gap: 6px; }
-.h2h-row {
-  display: grid; grid-template-columns: 72px 44px 68px 1fr;
-  align-items: center; gap: 12px;
-  padding: 10px 14px; background: #F7F9FD;
-  border: 1px solid var(--line); border-radius: 8px;
-}
-.h2h-yr { font-size: 12px; color: var(--muted); font-weight: 700; }
-.h2h-res {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px; font-weight: 800; text-align: center;
-  border-radius: 4px; padding: 4px 0; color: #fff;
-  letter-spacing: .5px; text-transform: uppercase;
-}
-.h2h-res.w { background: var(--green); }
-.h2h-res.d { background: #9E9E9E; }
-.h2h-res.l { background: var(--red); }
-.h2h-sc {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px; font-weight: 800; text-align: center;
-  color: var(--dark); font-variant-numeric: tabular-nums;
-}
-.h2h-desc { font-size: 12px; color: #555; line-height: 1.45; }
-.h2h-note {
-  margin-top: 10px; font-size: 12px; color: var(--navy);
-  background: var(--blue-l); padding: 10px 14px;
-  border-radius: 8px; text-align: center; font-weight: 700;
-}
+/* ── H2H ── */
+.h2h-list { display:flex; flex-direction:column; gap:6px; }
+.h2h-row { display:grid; grid-template-columns:72px 44px 68px 1fr; align-items:center; gap:12px; padding:10px 14px; background:#F7F9FD; border:1px solid var(--line); border-radius:8px; }
+.h2h-yr { font-size:12px; color:var(--muted); font-weight:700; }
+.h2h-res { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; text-align:center; border-radius:4px; padding:4px 0; color:#fff; letter-spacing:.5px; text-transform:uppercase; }
+.h2h-res.w { background:var(--green); }
+.h2h-res.d { background:#9E9E9E; }
+.h2h-res.l { background:var(--red); }
+.h2h-sc { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-align:center; color:var(--dark); font-variant-numeric:tabular-nums; }
+.h2h-desc { font-size:12px; color:#555; line-height:1.45; }
+.h2h-note { margin-top:10px; font-size:12px; color:var(--navy); background:var(--blue-l); padding:10px 14px; border-radius:8px; text-align:center; font-weight:700; }
 
-/* ───── 전력분석 ───── */
-.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.fact {
-  padding: 14px; background: #F7F9FD; border-radius: 10px;
-  border-left: 3px solid var(--navy);
-}
-.fact .ft {
-  font-size: 10px; font-weight: 800; color: var(--navy);
-  margin-bottom: 5px; text-transform: uppercase; letter-spacing: .8px;
-  font-family: 'Barlow Condensed', sans-serif;
-}
-.fact .fv { font-size: 13px; color: #444; line-height: 1.5; }
-.disclaimer {
-  font-size: 11px; color: var(--muted); text-align: center;
-  margin-top: 14px; line-height: 1.6;
-}
+/* ── 전력분석 ── */
+.facts { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.fact { padding:14px; background:#F7F9FD; border-radius:10px; border-left:3px solid var(--navy); }
+.fact .ft { font-size:10px; font-weight:800; color:var(--navy); margin-bottom:5px; text-transform:uppercase; letter-spacing:.8px; font-family:'Barlow Condensed',sans-serif; }
+.fact .fv { font-size:13px; color:#444; line-height:1.5; }
+.disclaimer { font-size:11px; color:var(--muted); text-align:center; margin-top:14px; line-height:1.6; }
 
-/* ───── 준비중 ───── */
+/* ── 남아공 준비중 ── */
 .coming-panel {
-  background: var(--dark);
-  border-radius: 0 0 14px 14px;
-  min-height: 320px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 60px 24px; text-align: center; gap: 16px;
-  position: relative; overflow: hidden;
+  background:var(--dark); border-radius:0 0 14px 14px; min-height:320px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:60px 24px; text-align:center; gap:16px; position:relative; overflow:hidden;
 }
-.coming-panel::before {
-  content: '';
-  position: absolute; top: -80px; right: -80px;
-  width: 280px; height: 280px;
-  border: 40px solid rgba(255,255,255,.03); border-radius: 50%;
-}
-.coming-icon { font-size: 56px; line-height: 1; position: relative; z-index: 1; }
-.coming-panel h2 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 30px; font-weight: 900; color: #fff;
-  letter-spacing: 1px; text-transform: uppercase;
-  position: relative; z-index: 1;
-}
-.coming-panel p {
-  font-size: 14px; color: rgba(255,255,255,.5);
-  font-weight: 600; position: relative; z-index: 1;
-}
-.coming-badge {
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
-  color: rgba(255,255,255,.6); font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px; font-weight: 800; padding: 6px 18px;
-  border-radius: 4px; letter-spacing: 2px; text-transform: uppercase;
-  position: relative; z-index: 1;
-}
+.coming-panel::before { content:''; position:absolute; top:-80px; right:-80px; width:280px; height:280px; border:40px solid rgba(255,255,255,.03); border-radius:50%; }
+.coming-icon { font-size:56px; line-height:1; position:relative; z-index:1; }
+.coming-panel h2 { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; color:#fff; letter-spacing:1px; text-transform:uppercase; position:relative; z-index:1; }
+.coming-panel p { font-size:14px; color:rgba(255,255,255,.5); font-weight:600; position:relative; z-index:1; }
+.coming-badge { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.6); font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; padding:6px 18px; border-radius:4px; letter-spacing:2px; text-transform:uppercase; position:relative; z-index:1; }
 
-/* ───── 푸터 ───── */
-.foot {
-  text-align: center; font-size: 11px; color: var(--muted);
-  margin-top: 28px; font-weight: 600; letter-spacing: .5px;
-}
+.foot { text-align:center; font-size:11px; color:var(--muted); margin-top:28px; font-weight:600; letter-spacing:.5px; }
 
-/* ───── 반응형 ───── */
-@media(max-width: 720px) {
-  .wrap { padding: 14px 14px 32px; }
-  .page-header { padding: 12px 16px; }
-  .header-title { font-size: 17px; }
-  .fifa-badge { display: none; }
-  .summary { grid-template-columns: repeat(2,1fr); }
-  .facts { grid-template-columns: 1fr; }
-  .score-row { grid-template-columns: 72px 42px 1fr; }
-  .sc-payout { grid-column: 1/-1; text-align: left; border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 4px; }
-  .h2h-row { grid-template-columns: 56px 38px 56px 1fr; gap: 8px; }
-  .winners-grid { grid-template-columns: repeat(2,1fr); }
-  .score-num { font-size: 52px; }
-  .t-flag { font-size: 38px; }
-  .t-name { font-size: 16px; }
-  .tab .t-name { font-size: 12px; }
-  .hero { padding: 28px 18px 24px; }
+/* ── 반응형 ── */
+@media(max-width:720px){
+  .wrap { padding:14px 14px 32px; }
+  .page-header { padding:12px 16px; }
+  .header-title { font-size:17px; }
+  .fifa-badge { display:none; }
+  .summary { grid-template-columns:repeat(2,1fr); }
+  .facts { grid-template-columns:1fr; }
+  .score-row { grid-template-columns:72px 42px 1fr; }
+  .sc-payout { grid-column:1/-1; text-align:left; border-top:1px dashed var(--line); padding-top:8px; margin-top:4px; }
+  .h2h-row { grid-template-columns:56px 38px 56px 1fr; gap:8px; }
+  .winners-grid { grid-template-columns:repeat(2,1fr); }
+  .score-num { font-size:52px; }
+  .t-flag { font-size:38px; }
+  .t-name { font-size:16px; }
+  .tab .t-name { font-size:12px; }
+  .hero { padding:28px 18px 24px; }
 }
-@media(max-width: 420px) {
-  .match-layout { gap: 12px; }
-  .score-num { font-size: 44px; }
-  .tab { padding: 12px 6px; }
+@media(max-width:420px){
+  .match-layout { gap:12px; }
+  .score-num { font-size:44px; }
+  .tab { padding:12px 6px; }
 }
 </style>
 </head>
@@ -485,7 +292,7 @@ body {
     <button class="tab" onclick="showTab(1)">
       <span class="t-date">Match 2 · 6/19</span>
       <span class="t-name">🇲🇽 멕시코 vs 대한민국 🇰🇷</span>
-      <span class="tab-pill soon">준비중</span>
+      <span class="tab-pill live" id="mexTabPill">● LIVE</span>
     </button>
     <button class="tab" onclick="showTab(2)">
       <span class="t-date">Match 3 · 6/25</span>
@@ -497,7 +304,6 @@ body {
   <!-- ══ TAB 0: 체코전 ══ -->
   <div class="tab-panel active" id="panel-0">
 
-    <!-- 히어로 -->
     <div class="hero">
       <div class="hero-eyebrow">
         <div class="hero-eyebrow-dot"></div>
@@ -505,148 +311,79 @@ body {
         <div class="hero-eyebrow-dot"></div>
       </div>
       <div class="match-layout">
-        <div class="match-team">
-          <div class="t-flag">🇨🇿</div>
-          <div class="t-name">체코</div>
-        </div>
+        <div class="match-team"><div class="t-flag">🇨🇿</div><div class="t-name">체코</div></div>
         <div class="score-center">
           <div class="score-num">1 : 2</div>
           <div class="result-chip">대한민국 승 🎉</div>
         </div>
-        <div class="match-team">
-          <div class="t-flag">🇰🇷</div>
-          <div class="t-name">대한민국</div>
-        </div>
+        <div class="match-team"><div class="t-flag">🇰🇷</div><div class="t-name">대한민국</div></div>
       </div>
       <div class="hero-footer">
-        2026 FIFA World Cup™
-        <span class="hero-divider">·</span>
-        2026.06.12 (금) 11:00 KST
-        <span class="hero-divider">·</span>
+        2026 FIFA World Cup™ <span class="hero-divider">·</span>
+        2026.06.12 (금) 11:00 KST <span class="hero-divider">·</span>
         에스타디오 아크론
       </div>
     </div>
 
-    <!-- 당첨자 공지 -->
     <div class="winner-section">
       <div class="winner-header">
         <h2>🏆 당첨자 발표</h2>
         <div class="win-score-chip">2 : 1 정답</div>
       </div>
       <div class="winners-grid">
-        <div class="winner-card">
-          <div class="wname">진솔</div>
-          <div class="wamount">35,000원</div>
-          <div class="wlabel">수령 완료 ✅</div>
-        </div>
-        <div class="winner-card">
-          <div class="wname">정인서</div>
-          <div class="wamount">35,000원</div>
-          <div class="wlabel">수령 완료 ✅</div>
-        </div>
-        <div class="winner-card">
-          <div class="wname">이종현</div>
-          <div class="wamount">35,000원</div>
-          <div class="wlabel">수령 완료 ✅</div>
-        </div>
-        <div class="winner-card">
-          <div class="wname">박우림</div>
-          <div class="wamount">35,000원</div>
-          <div class="wlabel">수령 완료 ✅</div>
-        </div>
+        <div class="winner-card"><div class="wname">진솔</div><div class="wamount">35,000원</div><div class="wlabel">수령 완료 ✅</div></div>
+        <div class="winner-card"><div class="wname">정인서</div><div class="wamount">35,000원</div><div class="wlabel">수령 완료 ✅</div></div>
+        <div class="winner-card"><div class="wname">이종현</div><div class="wamount">35,000원</div><div class="wlabel">수령 완료 ✅</div></div>
+        <div class="winner-card"><div class="wname">박우림</div><div class="wamount">35,000원</div><div class="wlabel">수령 완료 ✅</div></div>
       </div>
     </div>
 
-    <!-- 서머리 카드 -->
     <div class="summary">
-      <div class="stat-card">
-        <div class="s-ico">🎫</div>
-        <div class="s-val" id="totalBets">–</div>
-        <div class="s-lab">총 배팅 수</div>
-      </div>
-      <div class="stat-card">
-        <div class="s-ico">💰</div>
-        <div class="s-val" id="totalPool">–</div>
-        <div class="s-lab">총 상금 풀</div>
-      </div>
-      <div class="stat-card">
-        <div class="s-ico">👥</div>
-        <div class="s-val" id="totalPeople">–</div>
-        <div class="s-lab">참여 인원</div>
-      </div>
-      <div class="stat-card">
-        <div class="s-ico">🏅</div>
-        <div class="s-val-sm" id="topBettor">–</div>
-        <div class="s-lab">최다 배팅자</div>
-      </div>
+      <div class="stat-card"><div class="s-ico">🎫</div><div class="s-val" id="czeTotalBets">–</div><div class="s-lab">총 배팅 수</div></div>
+      <div class="stat-card"><div class="s-ico">💰</div><div class="s-val" id="czeTotalPool">–</div><div class="s-lab">총 상금 풀</div></div>
+      <div class="stat-card"><div class="s-ico">👥</div><div class="s-val" id="czeTotalPeople">–</div><div class="s-lab">참여 인원</div></div>
+      <div class="stat-card"><div class="s-ico">🏅</div><div class="s-val-sm" id="czeTopBettor">–</div><div class="s-lab">최다 배팅자</div></div>
     </div>
 
-    <!-- 스코어별 현황 -->
     <div class="section">
       <div class="section-head">
         <div class="section-title">🎯 스코어별 현황</div>
-        <div class="sec-badge">한국 : 체코</div>
+        <div class="sec-badge">KOR : CZE</div>
       </div>
-      <div class="score-list" id="scoreList"></div>
+      <div class="score-list" id="czeScoreList"></div>
     </div>
 
-    <!-- 토토박사 순위 -->
     <div class="section">
       <div class="section-head">
         <div class="section-title">📊 주만사 토토박사 순위</div>
-        <div class="sec-badge">누적 실이익 순</div>
+        <div class="sec-badge">체코전 기준</div>
       </div>
       <div class="stats-wrap">
         <table class="stats-table">
-          <thead>
-            <tr>
-              <th>순위</th>
-              <th>이름</th>
-              <th>총 배팅</th>
-              <th>적중</th>
-              <th>적중률</th>
-              <th>배팅액</th>
-              <th>상금액</th>
-              <th>실이익</th>
-            </tr>
-          </thead>
-          <tbody id="statsBody"></tbody>
+          <thead><tr>
+            <th>순위</th><th>이름</th><th>총 배팅</th><th>적중</th>
+            <th>적중률</th><th>배팅액</th><th>상금액</th><th>실이익</th>
+          </tr></thead>
+          <tbody id="czeStatsBody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- 역대 전적 -->
     <div class="section">
       <div class="section-head">
         <div class="section-title">⚔️ 역대 전적</div>
         <div class="sec-badge">통산 5전 1승 2무 2패</div>
       </div>
       <div class="h2h-list">
-        <div class="h2h-row">
-          <span class="h2h-yr">2016.06</span><span class="h2h-res w">Win</span>
-          <span class="h2h-sc">2 : 1</span><span class="h2h-desc">친선 (체코 원정) · 한국 첫 체코전 승리</span>
-        </div>
-        <div class="h2h-row">
-          <span class="h2h-yr">2001.06</span><span class="h2h-res l">Loss</span>
-          <span class="h2h-sc">0 : 5</span><span class="h2h-desc">친선 · 히딩크 '오대영' 별명 유래한 참패</span>
-        </div>
-        <div class="h2h-row">
-          <span class="h2h-yr">1998.05</span><span class="h2h-res d">Draw</span>
-          <span class="h2h-sc">2 : 2</span><span class="h2h-desc">프랑스 WC 대비 평가전</span>
-        </div>
-        <div class="h2h-row">
-          <span class="h2h-yr">1990s</span><span class="h2h-res d">Draw</span>
-          <span class="h2h-sc">– : –</span><span class="h2h-desc">친선 · 무승부</span>
-        </div>
-        <div class="h2h-row">
-          <span class="h2h-yr">1990s</span><span class="h2h-res l">Loss</span>
-          <span class="h2h-sc">– : –</span><span class="h2h-desc">친선 · 패배</span>
-        </div>
+        <div class="h2h-row"><span class="h2h-yr">2016.06</span><span class="h2h-res w">Win</span><span class="h2h-sc">2 : 1</span><span class="h2h-desc">친선 (체코 원정) · 한국 첫 체코전 승리</span></div>
+        <div class="h2h-row"><span class="h2h-yr">2001.06</span><span class="h2h-res l">Loss</span><span class="h2h-sc">0 : 5</span><span class="h2h-desc">친선 · 히딩크 '오대영' 별명 유래한 참패</span></div>
+        <div class="h2h-row"><span class="h2h-yr">1998.05</span><span class="h2h-res d">Draw</span><span class="h2h-sc">2 : 2</span><span class="h2h-desc">프랑스 WC 대비 평가전</span></div>
+        <div class="h2h-row"><span class="h2h-yr">1990s</span><span class="h2h-res d">Draw</span><span class="h2h-sc">– : –</span><span class="h2h-desc">친선 · 무승부</span></div>
+        <div class="h2h-row"><span class="h2h-yr">1990s</span><span class="h2h-res l">Loss</span><span class="h2h-sc">– : –</span><span class="h2h-desc">친선 · 패배</span></div>
       </div>
       <div class="h2h-note">📌 월드컵 본선 첫 맞대결 · 최근 맞대결 2016년 (10년 전)</div>
     </div>
 
-    <!-- 전력분석 -->
     <div class="section">
       <div class="section-head">
         <div class="section-title">📋 경기 전 분석</div>
@@ -671,13 +408,58 @@ body {
 
   <!-- ══ TAB 1: 멕시코전 ══ -->
   <div class="tab-panel" id="panel-1">
-    <div class="coming-panel">
-      <div class="coming-icon">🇲🇽</div>
-      <h2>멕시코전 준비중</h2>
-      <p>Match 2 · 2026.06.19 (목) 10:00 KST</p>
-      <div class="coming-badge">Coming Soon</div>
+
+    <div class="hero">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <div class="hero-eyebrow-text">Group A · Matchday 2 · Dallas</div>
+        <div class="hero-eyebrow-dot"></div>
+      </div>
+      <div class="match-layout">
+        <div class="match-team"><div class="t-flag">🇲🇽</div><div class="t-name">멕시코</div></div>
+        <div class="score-center">
+          <div class="score-num">VS</div>
+          <div class="live-badge"><span class="live-dot"></span> 배팅 진행중</div>
+        </div>
+        <div class="match-team"><div class="t-flag">🇰🇷</div><div class="t-name">대한민국</div></div>
+      </div>
+      <div class="countdown-box">
+        <div class="cd-label">⏰ 배팅 마감까지</div>
+        <div class="cd-timer" id="mexTimer">
+          <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-lbl">일</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-lbl">시간</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl">분</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-lbl">초</div></div>
+        </div>
+      </div>
+      <div class="hero-footer">
+        2026 FIFA World Cup™ <span class="hero-divider">·</span>
+        2026.06.19 (목) 10:00 KST <span class="hero-divider">·</span>
+        AT&T Stadium, Dallas
+      </div>
     </div>
-  </div>
+
+    <div class="summary">
+      <div class="stat-card"><div class="s-ico">🎫</div><div class="s-val" id="mexTotalBets">–</div><div class="s-lab">총 배팅 수</div></div>
+      <div class="stat-card"><div class="s-ico">💰</div><div class="s-val" id="mexTotalPool">–</div><div class="s-lab">예상 상금 풀</div></div>
+      <div class="stat-card"><div class="s-ico">👥</div><div class="s-val" id="mexTotalPeople">–</div><div class="s-lab">참여 인원</div></div>
+      <div class="stat-card"><div class="s-ico">🏅</div><div class="s-val-sm" id="mexTopBettor">–</div><div class="s-lab">최다 배팅자</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">🎯 스코어별 현황</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="sec-badge">KOR : MEX</div>
+          <button class="refresh-btn" id="mexRefreshBtn" onclick="refreshMex()">
+            <span>↻</span> 갱신
+          </button>
+        </div>
+      </div>
+      <div class="score-list" id="mexScoreList"><div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">데이터 불러오는 중...</div></div>
+    </div>
+
+  </div><!-- /panel-1 -->
 
   <!-- ══ TAB 2: 남아공전 ══ -->
   <div class="tab-panel" id="panel-2">
@@ -694,122 +476,220 @@ body {
 </div><!-- /wrap -->
 
 <script>
-const BET_AMOUNT   = 5000;
-const WIN_KEY      = '2:1';
-const WINNER_PAYOUT = 35000;
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtOe2jRbxEvR0DHLe-BXhdxKWi7Opzd-mguTuhwc5pI1Tr6HCD29dQ-DO-7uNxPe6VHbbZ0PZT9oEC/pub?output=csv";
+/* ─── 설정 ─── */
+const BET_AMOUNT = 5000;
 
-const FALLBACK = [
+const CZE_WIN_KEY      = '2:1';
+const CZE_WINNER_PAYOUT = 35000;
+const CZE_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtOe2jRbxEvR0DHLe-BXhdxKWi7Opzd-mguTuhwc5pI1Tr6HCD29dQ-DO-7uNxPe6VHbbZ0PZT9oEC/pub?output=csv';
+
+const MEX_SHEET   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSB-rOrPYVzpji9K3orjyttQv5zIrXNjsmaAqPDgFC9_ZjuQB8uiospwo23597AaeMKOYN27MfdrhPv/pub?output=csv';
+const MEX_DEADLINE = new Date('2026-06-19T10:00:00+09:00');
+
+const CZE_FALLBACK = [
   ["이현우",2,2],["성수환",3,1],["김태현",1,0],["박찬서",1,0],["정인서",1,0],
   ["정인서",2,1],["김원경",0,1],["이종현",2,1],["이종현",1,1],["이종현",3,1],
   ["문경환",0,0],["진솔",2,1],["김성환",1,1],["박우림",3,2],["박우림",2,1]
 ];
 
-function parseCSV(text){
+/* ─── CSV 파싱 ─── */
+function parseCSV(text) {
   const lines = text.trim().split('\n');
   const rows = [];
-  for(let i=1;i<lines.length;i++){
-    const cols = lines[i].split(',').map(c=>c.trim().replace(/^"|"$/g,''));
-    const name = cols[1]||'';
-    const kor = parseInt(cols[2],10), cze = parseInt(cols[3],10);
-    if(name && !isNaN(kor) && !isNaN(cze)) rows.push([name,kor,cze]);
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+    const name = cols[1] || '';
+    const a = parseInt(cols[2], 10), b = parseInt(cols[3], 10);
+    if (name && !isNaN(a) && !isNaN(b)) rows.push([name, a, b]);
   }
   return rows;
 }
 
-async function loadData(){
-  try{
-    const res = await fetch(SHEET_CSV_URL+'&t='+Date.now());
+/* ─── 시트 fetch (단순, 캐시 없음) ─── */
+async function fetchSheet(url, fallback) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('fetch failed');
     const txt = await res.text();
     const rows = parseCSV(txt);
-    render(rows.length ? rows : FALLBACK);
-  }catch(e){
-    render(FALLBACK);
+    return rows.length ? rows : fallback;
+  } catch (e) {
+    return fallback;
   }
 }
 
-function showTab(idx){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
-  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+/* ─── 탭 전환 ─── */
+function showTab(idx) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
 }
 
-function render(DATA){
+/* ─── 카운트다운 ─── */
+function tickCountdown() {
+  const diff = Math.floor((MEX_DEADLINE - new Date()) / 1000);
+  const timer = document.getElementById('mexTimer');
+  if (!timer) return;
+  if (diff <= 0) {
+    timer.innerHTML = '<div class="cd-closed">⛔ 배팅이 마감되었습니다</div>';
+    const pill = document.getElementById('mexTabPill');
+    if (pill) { pill.textContent = '마감'; pill.className = 'tab-pill done'; }
+    return;
+  }
+  const d = Math.floor(diff / 86400);
+  const h = Math.floor((diff % 86400) / 3600);
+  const m = Math.floor((diff % 3600) / 60);
+  const s = diff % 60;
+  const p = n => String(n).padStart(2, '0');
+  document.getElementById('cd-d').textContent = d;
+  document.getElementById('cd-h').textContent = p(h);
+  document.getElementById('cd-m').textContent = p(m);
+  document.getElementById('cd-s').textContent = p(s);
+}
+setInterval(tickCountdown, 1000);
+tickCountdown();
+
+/* ─── 체코전 렌더 ─── */
+function renderCze(DATA) {
   const total  = DATA.length;
   const pool   = total * BET_AMOUNT;
-  const people = new Set(DATA.map(r=>r[0])).size;
+  const people = new Set(DATA.map(r => r[0])).size;
 
-  document.getElementById('totalBets').textContent   = total+' 건';
-  document.getElementById('totalPool').textContent   = pool.toLocaleString()+' 원';
-  document.getElementById('totalPeople').textContent = people+' 명';
+  document.getElementById('czeTotalBets').textContent   = total + ' 건';
+  document.getElementById('czeTotalPool').textContent   = pool.toLocaleString() + ' 원';
+  document.getElementById('czeTotalPeople').textContent = people + ' 명';
 
-  const betCount = {};
-  DATA.forEach(([n])=>{ betCount[n]=(betCount[n]||0)+1; });
-  const top = Object.entries(betCount).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('topBettor').textContent = top ? top[0]+' ('+top[1]+'건)' : '–';
+  const cnt = {};
+  DATA.forEach(([n]) => { cnt[n] = (cnt[n] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById('czeTopBettor').textContent = top ? top[0] + ' (' + top[1] + '건)' : '–';
 
-  // 스코어 집계
   const map = {};
-  DATA.forEach(([n,k,c])=>{
-    const key = k+':'+c;
-    if(!map[key]) map[key]={count:0,names:[]};
+  DATA.forEach(([n, k, c]) => {
+    const key = k + ':' + c;
+    if (!map[key]) map[key] = { count: 0, names: [] };
     map[key].count++; map[key].names.push(n);
   });
-  const arr = Object.entries(map).map(([score,v])=>({
-    score, count:v.count, names:v.names.join(', '),
-    payout: Math.floor(pool/v.count)
-  })).sort((a,b)=>b.count-a.count);
+  const arr = Object.entries(map).map(([score, v]) => ({
+    score, count: v.count, names: v.names.join(', '),
+    payout: Math.floor(pool / v.count)
+  })).sort((a, b) => b.count - a.count);
 
   const maxC = arr.length ? arr[0].count : 1;
-  document.getElementById('scoreList').innerHTML = arr.map((r,i)=>{
-    const isWin = r.score === WIN_KEY;
-    return `
-    <div class="score-row ${isWin?'winner-score':''}">
-      <div class="sc-score">${r.score}${isWin?' ✅':''}<small>KOR : CZE</small></div>
+  document.getElementById('czeScoreList').innerHTML = arr.map(r => {
+    const isWin = r.score === CZE_WIN_KEY;
+    return `<div class="score-row ${isWin ? 'winner-score' : ''}">
+      <div class="sc-score">${r.score}${isWin ? ' ✅' : ''}<small>KOR : CZE</small></div>
       <div class="sc-count"><span class="n">${r.count}</span></div>
       <div>
-        <div class="sc-bar${isWin?' win':''}"><span style="width:${Math.round(r.count/maxC*100)}%"></span></div>
+        <div class="sc-bar${isWin ? ' win' : ''}"><span style="width:${Math.round(r.count / maxC * 100)}%"></span></div>
         <div class="sc-names">${r.names}</div>
       </div>
       <div class="sc-payout">
-        <div class="p${isWin?' win':''}">${isWin?WINNER_PAYOUT.toLocaleString():'–'}원</div>
-        <div class="pl">${isWin?'실제 수령액':'낙첨'}</div>
+        <div class="p${isWin ? ' win' : ''}">${isWin ? CZE_WINNER_PAYOUT.toLocaleString() : '–'}원</div>
+        <div class="pl">${isWin ? '실제 수령액' : '낙첨'}</div>
       </div>
     </div>`;
   }).join('');
 
   // 토토박사 통계
   const personBets = {};
-  DATA.forEach(([n,k,c])=>{
-    if(!personBets[n]) personBets[n]=[];
-    personBets[n].push(k+':'+c);
+  DATA.forEach(([n, k, c]) => {
+    if (!personBets[n]) personBets[n] = [];
+    personBets[n].push(k + ':' + c);
   });
-
-  const statsArr = Object.entries(personBets).map(([name,bets])=>{
+  const statsArr = Object.entries(personBets).map(([name, bets]) => {
     const totalBets = bets.length;
-    const hits   = bets.filter(b=>b===WIN_KEY).length;
+    const hits   = bets.filter(b => b === CZE_WIN_KEY).length;
     const betAmt = totalBets * BET_AMOUNT;
-    const prize  = hits > 0 ? WINNER_PAYOUT : 0;
+    const prize  = hits > 0 ? CZE_WINNER_PAYOUT : 0;
     const profit = prize - betAmt;
-    const rate   = Math.round(hits/totalBets*100);
-    return {name,totalBets,hits,betAmt,prize,profit,rate};
-  }).sort((a,b)=>b.profit-a.profit||b.rate-a.rate);
+    const rate   = Math.round(hits / totalBets * 100);
+    return { name, totalBets, hits, betAmt, prize, profit, rate };
+  }).sort((a, b) => b.profit - a.profit || b.rate - a.rate);
 
-  const medals = ['🥇','🥈','🥉'];
-  document.getElementById('statsBody').innerHTML = statsArr.map((r,i)=>`
+  const medals = ['🥇', '🥈', '🥉'];
+  document.getElementById('czeStatsBody').innerHTML = statsArr.map((r, i) => `
     <tr>
-      <td><span class="s-rank">${medals[i]||(i+1)}</span></td>
+      <td><span class="s-rank">${medals[i] || (i + 1)}</span></td>
       <td>${r.name}</td>
       <td>${r.totalBets}건</td>
       <td>${r.hits}건</td>
       <td>${r.rate}%</td>
       <td>${r.betAmt.toLocaleString()}원</td>
-      <td>${r.prize>0?r.prize.toLocaleString()+'원':'–'}</td>
-      <td class="${r.profit>=0?'profit-pos':'profit-neg'}">${r.profit>=0?'+':''}${r.profit.toLocaleString()}원</td>
-    </tr>
-  `).join('');
+      <td>${r.prize > 0 ? r.prize.toLocaleString() + '원' : '–'}</td>
+      <td class="${r.profit >= 0 ? 'profit-pos' : 'profit-neg'}">${r.profit >= 0 ? '+' : ''}${r.profit.toLocaleString()}원</td>
+    </tr>`).join('');
 }
 
-loadData();
+/* ─── 멕시코전 렌더 ─── */
+function renderMex(DATA) {
+  const total  = DATA.length;
+  const pool   = total * BET_AMOUNT;
+  const people = new Set(DATA.map(r => r[0])).size;
+
+  document.getElementById('mexTotalBets').textContent   = total + ' 건';
+  document.getElementById('mexTotalPool').textContent   = pool.toLocaleString() + ' 원';
+  document.getElementById('mexTotalPeople').textContent = people + ' 명';
+
+  const cnt = {};
+  DATA.forEach(([n]) => { cnt[n] = (cnt[n] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById('mexTopBettor').textContent = top ? top[0] + ' (' + top[1] + '건)' : '–';
+
+  if (!total) {
+    document.getElementById('mexScoreList').innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-weight:600;">아직 배팅 데이터가 없습니다</div>';
+    return;
+  }
+
+  const map = {};
+  DATA.forEach(([n, k, c]) => {
+    const key = k + ':' + c;
+    if (!map[key]) map[key] = { count: 0, names: [] };
+    map[key].count++; map[key].names.push(n);
+  });
+  const arr = Object.entries(map).map(([score, v]) => ({
+    score, count: v.count, names: v.names.join(', '),
+    payout: Math.floor(pool / v.count)
+  })).sort((a, b) => b.count - a.count);
+
+  const maxC = arr[0].count;
+  document.getElementById('mexScoreList').innerHTML = arr.map(r => `
+    <div class="score-row">
+      <div class="sc-score">${r.score}<small>KOR : MEX</small></div>
+      <div class="sc-count"><span class="n">${r.count}</span></div>
+      <div>
+        <div class="sc-bar"><span style="width:${Math.round(r.count / maxC * 100)}%"></span></div>
+        <div class="sc-names">${r.names}</div>
+      </div>
+      <div class="sc-payout">
+        <div class="p">${r.payout.toLocaleString()}원</div>
+        <div class="pl">적중 시 1인</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ─── 멕시코 수동 갱신 ─── */
+async function refreshMex() {
+  const btn = document.getElementById('mexRefreshBtn');
+  btn.classList.add('spinning');
+  btn.disabled = true;
+  const rows = await fetchSheet(MEX_SHEET, []);
+  renderMex(rows);
+  btn.classList.remove('spinning');
+  btn.disabled = false;
+}
+
+/* ─── 초기 로드: 두 시트 동시에 한 번만 ─── */
+async function init() {
+  const [czeRows, mexRows] = await Promise.all([
+    fetchSheet(CZE_SHEET, CZE_FALLBACK),
+    fetchSheet(MEX_SHEET, [])
+  ]);
+  renderCze(czeRows);
+  renderMex(mexRows);
+}
+
+init();
 </script>
 </body>
 </html>
