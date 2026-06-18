@@ -127,17 +127,23 @@ body {
 .live-dot { width:7px; height:7px; border-radius:50%; background:#FF5252; animation:blink 1.2s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-/* ── 갱신 버튼 ── */
-.refresh-btn {
-  display:inline-flex; align-items:center; gap:6px;
-  background:transparent; border:1.5px solid var(--line);
-  border-radius:8px; padding:6px 14px; cursor:pointer;
-  font-size:12px; font-weight:700; color:var(--muted);
-  transition:all .2s;
+/* ── 인원별 투자 현황 ── */
+.invest-header {
+  display:grid; grid-template-columns:1fr 52px 96px 110px; gap:12px;
+  padding:6px 14px; font-size:10px; color:var(--muted); font-weight:700;
+  letter-spacing:.8px; text-transform:uppercase;
 }
-.refresh-btn:hover { border-color:var(--navy); color:var(--navy); background:var(--blue-l); }
-.refresh-btn.spinning span { display:inline-block; animation:spin .7s linear infinite; }
-@keyframes spin { to{transform:rotate(360deg)} }
+.invest-row {
+  display:grid; grid-template-columns:1fr 52px 96px 110px; align-items:center; gap:12px;
+  padding:12px 14px; border-radius:10px; background:#F7F9FD; border:1.5px solid var(--line);
+}
+.iv-name { font-size:14px; font-weight:700; }
+.iv-cnt  { font-size:13px; font-weight:800; color:var(--navy); text-align:center; }
+.iv-amt  { font-size:13px; font-weight:600; color:var(--muted); text-align:right; }
+.iv-pay  { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:900; color:var(--red); text-align:right; }
+@media(max-width:720px){
+  .invest-header,.invest-row { grid-template-columns:1fr 40px 80px 90px; gap:8px; }
+}
 
 /* ── 서머리 카드 ── */
 .summary { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px; }
@@ -449,14 +455,23 @@ body {
     <div class="section">
       <div class="section-head">
         <div class="section-title">🎯 스코어별 현황</div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <div class="sec-badge">KOR : MEX</div>
-          <button class="refresh-btn" id="mexRefreshBtn" onclick="refreshMex()">
-            <span>↻</span> 갱신
-          </button>
-        </div>
+        <div class="sec-badge">KOR : MEX</div>
       </div>
       <div class="score-list" id="mexScoreList"><div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">데이터 불러오는 중...</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">💸 인원별 투자 현황</div>
+        <div class="sec-badge">실이익 순</div>
+      </div>
+      <div class="invest-header">
+        <div>이름</div>
+        <div style="text-align:center">배팅</div>
+        <div style="text-align:right">투자금액</div>
+        <div style="text-align:right">적중 시 수령</div>
+      </div>
+      <div id="mexInvestList" style="display:flex;flex-direction:column;gap:6px;margin-top:4px;"></div>
     </div>
 
   </div><!-- /panel-1 -->
@@ -521,10 +536,16 @@ async function fetchSheet(url, fallback, nameCol, aCol, bCol) {
   }
 }
 
-/* ─── 탭 전환 ─── */
+/* ─── 탭 전환 (URL 해시로 상태 유지 → 새로고침해도 현재 탭 복원) ─── */
 function showTab(idx) {
   document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
   document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  history.replaceState(null, '', ['#match1','#match2','#match3'][idx]);
+}
+function getInitialTab() {
+  if (location.hash === '#match2') return 1;
+  if (location.hash === '#match3') return 2;
+  return 0;
 }
 
 /* ─── 카운트다운 ─── */
@@ -639,11 +660,14 @@ function renderMex(DATA) {
   const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
   document.getElementById('mexTopBettor').textContent = top ? top[0] + ' (' + top[1] + '건)' : '–';
 
+  const emptyMsg = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-weight:600;">아직 배팅 데이터가 없습니다</div>';
   if (!total) {
-    document.getElementById('mexScoreList').innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-weight:600;">아직 배팅 데이터가 없습니다</div>';
+    document.getElementById('mexScoreList').innerHTML = emptyMsg;
+    document.getElementById('mexInvestList').innerHTML = '';
     return;
   }
 
+  // 스코어 집계
   const map = {};
   DATA.forEach(([n, k, c]) => {
     const key = k + ':' + c;
@@ -669,21 +693,38 @@ function renderMex(DATA) {
         <div class="pl">적중 시 1인</div>
       </div>
     </div>`).join('');
+
+  // 스코어별 배당 맵
+  const payoutMap = {};
+  arr.forEach(r => { payoutMap[r.score] = r.payout; });
+
+  // 인원별 투자 현황
+  const personBets = {};
+  DATA.forEach(([n, k, c]) => {
+    if (!personBets[n]) personBets[n] = [];
+    personBets[n].push(k + ':' + c);
+  });
+  const investArr = Object.entries(personBets).map(([name, bets]) => {
+    const betCnt    = bets.length;
+    const investment = betCnt * BET_AMOUNT;
+    const maxPayout  = Math.max(...bets.map(b => payoutMap[b] || 0));
+    return { name, betCnt, investment, maxPayout };
+  }).sort((a, b) => b.maxPayout - a.maxPayout);
+
+  document.getElementById('mexInvestList').innerHTML = investArr.map(r => `
+    <div class="invest-row">
+      <div class="iv-name">${r.name}</div>
+      <div class="iv-cnt">${r.betCnt}건</div>
+      <div class="iv-amt">${r.investment.toLocaleString()}원</div>
+      <div class="iv-pay">${r.maxPayout.toLocaleString()}원</div>
+    </div>`).join('');
 }
 
-/* ─── 멕시코 수동 갱신 ─── */
-async function refreshMex() {
-  const btn = document.getElementById('mexRefreshBtn');
-  btn.classList.add('spinning');
-  btn.disabled = true;
-  const rows = await fetchSheet(MEX_SHEET, [], 6, 1, 2);  // 이름(6), 한국(1), 멕시코(2)
-  renderMex(rows);
-  btn.classList.remove('spinning');
-  btn.disabled = false;
-}
-
-/* ─── 초기 로드: 두 시트 동시에 한 번만 ─── */
+/* ─── 초기 로드: 두 시트 동시에 한 번만, 탭 상태 복원 ─── */
 async function init() {
+  const initialTab = getInitialTab();
+  if (initialTab !== 0) showTab(initialTab);
+
   const [czeRows, mexRows] = await Promise.all([
     fetchSheet(CZE_SHEET, CZE_FALLBACK, 1, 2, 3),  // 이름(1), 한국(2), 체코(3)
     fetchSheet(MEX_SHEET, [], 6, 1, 2)              // 이름(6), 한국(1), 멕시코(2)
