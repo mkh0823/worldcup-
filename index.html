@@ -244,6 +244,36 @@ body {
 .coming-panel p { font-size:14px; color:rgba(255,255,255,.5); font-weight:600; position:relative; z-index:1; }
 .coming-badge { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.6); font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; padding:6px 18px; border-radius:4px; letter-spacing:2px; text-transform:uppercase; position:relative; z-index:1; }
 
+/* ── 번외게임 / 패션왕 ── */
+.bonus-section { background:linear-gradient(135deg,#F3F0FF,#EDE7F6); border:1.5px solid #CE93D8; border-radius:14px; padding:22px; margin-top:16px; }
+.bonus-header { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+.bonus-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#4A148C; letter-spacing:.5px; text-transform:uppercase; }
+.bonus-badge { background:#6A1B9A; color:#fff; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:800; padding:4px 12px; border-radius:4px; letter-spacing:1.5px; }
+.bonus-games { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:16px; }
+.bonus-q { background:#fff; border:1.5px solid #CE93D8; border-radius:10px; padding:12px 6px; text-align:center; }
+.bq-num { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#6A1B9A; line-height:1; }
+.bq-txt { font-size:10px; font-weight:700; color:var(--text); margin-top:5px; line-height:1.4; }
+.bonus-winner-card { background:#fff; border:2px solid #6EC48A; border-radius:12px; padding:18px; text-align:center; }
+.bw-label { font-size:10px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.bw-name { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; color:var(--dark); }
+.bw-point { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; color:var(--green); margin-top:4px; }
+.bw-sub { font-size:11px; color:var(--muted); margin-top:4px; font-weight:600; }
+
+.fashion-section { background:linear-gradient(135deg,#FFF0F6,#FCE4EC); border:1.5px solid #F48FB1; border-radius:14px; padding:22px; margin-top:16px; }
+.fashion-header { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+.fashion-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#880E4F; letter-spacing:.5px; text-transform:uppercase; }
+.fashion-badge { background:#C2185B; color:#fff; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:800; padding:4px 12px; border-radius:4px; letter-spacing:1.5px; }
+.fashion-winner-card { background:#fff; border:2px solid #F48FB1; border-radius:12px; padding:18px; text-align:center; }
+.fw-quote { font-size:13px; color:#C2185B; font-weight:700; margin-bottom:10px; }
+.fw-name { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; color:var(--dark); }
+.fw-point { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; color:#C2185B; margin-top:4px; }
+.fw-sub { font-size:11px; color:var(--muted); margin-top:4px; font-weight:600; }
+
+@media(max-width:600px){
+  .bonus-games { grid-template-columns:repeat(5,1fr); gap:4px; }
+  .bq-txt { font-size:9px; }
+}
+
 .foot { text-align:center; font-size:11px; color:var(--muted); margin-top:28px; font-weight:600; letter-spacing:.5px; }
 
 /* ── 반응형 ── */
@@ -447,6 +477,41 @@ body {
         <div class="winner-card"><div class="wname">엄용태</div><div class="wamount">45,000원</div><div class="wlabel">수령 완료 ✅</div></div>
         <div class="winner-card"><div class="wname">박찬서 (전직 축구 분석가)</div><div class="wamount">45,000원</div><div class="wlabel">수령 완료 ✅</div></div>
         <div class="winner-card"><div class="wname">정인서</div><div class="wamount">45,000원</div><div class="wlabel">수령 완료 ✅</div></div>
+      </div>
+    </div>
+
+    <!-- 번외게임 결과 -->
+    <div class="bonus-section">
+      <div class="bonus-header">
+        <h2>🎲 번외게임 결과</h2>
+        <div class="bonus-badge">5문제 완벽 적중</div>
+      </div>
+      <div class="bonus-games">
+        <div class="bonus-q"><div class="bq-num">①</div><div class="bq-txt">킥오프<br>국가</div></div>
+        <div class="bonus-q"><div class="bq-num">②</div><div class="bq-txt">첫 스로인<br>국가</div></div>
+        <div class="bonus-q"><div class="bq-num">③</div><div class="bq-txt">첫 옐로카드<br>국가</div></div>
+        <div class="bonus-q"><div class="bq-num">④</div><div class="bq-txt">전반전<br>스코어</div></div>
+        <div class="bonus-q"><div class="bq-num">⑤</div><div class="bq-txt">레드카드<br>발생여부</div></div>
+      </div>
+      <div class="bonus-winner-card">
+        <div class="bw-label">🏆 5문제 전원 적중 · 최종 우승자</div>
+        <div class="bw-name">엄용태 실장</div>
+        <div class="bw-point">+50,000 복지포인트</div>
+        <div class="bw-sub">수령 완료 ✅</div>
+      </div>
+    </div>
+
+    <!-- 패션왕 대회 결과 -->
+    <div class="fashion-section">
+      <div class="fashion-header">
+        <h2>👑 2026 주만사 패션왕</h2>
+        <div class="fashion-badge">2002 감성 충만</div>
+      </div>
+      <div class="fashion-winner-card">
+        <div class="fw-quote">"패션왕? 그거 제가 했습니다." 👗✨</div>
+        <div class="fw-name">정인서 파트장</div>
+        <div class="fw-point">+50,000 복지포인트</div>
+        <div class="fw-sub">수령 완료 ✅ &nbsp;·&nbsp; 인싸 인정!</div>
       </div>
     </div>
 
