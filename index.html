@@ -276,6 +276,18 @@ body {
   .bq-txt { font-size:9px; }
 }
 
+/* ── 남아공 게임 카드 ── */
+.saf-game-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px; }
+.saf-game-card { background:var(--white); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); border:1.5px solid var(--line); display:flex; flex-direction:column; }
+.saf-game-card img { width:100%; height:180px; object-fit:cover; display:block; }
+.saf-card-body { padding:16px; flex:1; display:flex; flex-direction:column; }
+.saf-card-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:900; color:var(--dark); }
+.saf-card-desc { font-size:12px; color:var(--muted); margin-top:6px; line-height:1.6; flex:1; }
+.saf-card-btn { display:block; margin-top:14px; background:var(--navy); color:#fff; text-align:center; padding:11px; border-radius:8px; font-weight:700; font-size:13px; text-decoration:none; transition:background .2s; }
+.saf-card-btn:hover { background:var(--blue); }
+.saf-card-btn.disabled { background:var(--muted); cursor:default; pointer-events:none; }
+@media(max-width:720px){ .saf-game-cards { grid-template-columns:1fr; } .saf-game-card img { height:200px; } }
+
 .foot { text-align:center; font-size:11px; color:var(--muted); margin-top:28px; font-weight:600; letter-spacing:.5px; }
 
 /* ── 반응형 ── */
@@ -336,7 +348,7 @@ body {
     <button class="tab" onclick="showTab(2)">
       <span class="t-date">Match 3 · 6/25</span>
       <span class="t-name">🇿🇦 남아공 vs 대한민국 🇰🇷</span>
-      <span class="tab-pill soon">준비중</span>
+      <span class="tab-pill live" id="safTabPill">● 배팅중</span>
     </button>
   </div>
 
@@ -588,13 +600,123 @@ body {
 
   <!-- ══ TAB 2: 남아공전 ══ -->
   <div class="tab-panel" id="panel-2">
-    <div class="coming-panel">
-      <div class="coming-icon">🇿🇦</div>
-      <h2>남아공전 준비중</h2>
-      <p>Match 3 · 2026.06.25 (수) 10:00 KST</p>
-      <div class="coming-badge">Coming Soon</div>
+
+    <div class="hero">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <div class="hero-eyebrow-text">Group A · Matchday 3 · 최종전</div>
+        <div class="hero-eyebrow-dot"></div>
+      </div>
+      <div class="match-layout">
+        <div class="match-team"><div class="t-flag">🇰🇷</div><div class="t-name">대한민국</div></div>
+        <div class="score-center">
+          <div class="score-num">VS</div>
+          <div class="live-badge"><span class="live-dot"></span> 배팅 진행중</div>
+        </div>
+        <div class="match-team"><div class="t-flag">🇿🇦</div><div class="t-name">남아공</div></div>
+      </div>
+      <div class="countdown-box">
+        <div class="cd-label">⏰ 배팅 마감까지 (킥오프 1시간 전)</div>
+        <div class="cd-timer" id="safTimer">
+          <div class="cd-unit"><div class="cd-num" id="scd-d">--</div><div class="cd-lbl">일</div></div>
+          <div class="cd-unit"><div class="cd-num" id="scd-h">--</div><div class="cd-lbl">시간</div></div>
+          <div class="cd-unit"><div class="cd-num" id="scd-m">--</div><div class="cd-lbl">분</div></div>
+          <div class="cd-unit"><div class="cd-num" id="scd-s">--</div><div class="cd-lbl">초</div></div>
+        </div>
+      </div>
+      <div class="hero-footer">
+        2026 FIFA World Cup™ <span class="hero-divider">·</span>
+        2026.06.25 (수) 10:00 KST <span class="hero-divider">·</span>
+        Group A 최종전
+      </div>
     </div>
-  </div>
+
+    <!-- 3가지 이벤트 참여 카드 -->
+    <div class="saf-game-cards">
+      <div class="saf-game-card">
+        <img src="saf-bet.png" alt="스코어 내기">
+        <div class="saf-card-body">
+          <div class="saf-card-title">🏆 스코어 내기</div>
+          <div class="saf-card-desc">
+            정확한 스코어를 맞추면 상금 획득!<br>
+            배팅 1건당 5,000원<br>
+            적중자 N분의 1 정산 · 90분 정규시간 기준<br>
+            마감: 킥오프 1시간 전 (09:00)
+          </div>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf1oDm7TsQ0nV7rMhhve8Ois4KAhvVCtMTZS4S6FST0_XjxPg/viewform" target="_blank" class="saf-card-btn">지금 배팅하기 →</a>
+        </div>
+      </div>
+      <div class="saf-game-card">
+        <img src="saf-bonus.png" alt="번외게임">
+        <div class="saf-card-body">
+          <div class="saf-card-title">🎲 번외게임 (퀴즈)</div>
+          <div class="saf-card-desc">
+            5문제 전부 맞추면 <strong>50,000P</strong> 중복 지급!<br>
+            4문제 맞추고 보너스 정답 시 <strong>30,000P</strong><br>
+            (로또 방식 — 중복 지급)<br>
+            마감: 킥오프 1시간 전 (09:00)
+          </div>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_V3hJJn9RNvJ7fA63nZA9TwyNS-FxE6LRe3omqIfi11ftJw/viewform" target="_blank" class="saf-card-btn" style="background:var(--green);">퀴즈 참여하기 →</a>
+        </div>
+      </div>
+      <div class="saf-game-card">
+        <img src="saf-fashion.png" alt="패션왕 선발전">
+        <div class="saf-card-body">
+          <div class="saf-card-title">👑 패션왕 선발전</div>
+          <div class="saf-card-desc">
+            6월 25일(수) 하루만 진행!<br>
+            ① 월드컵 관련 패션 착용<br>
+            ② 사무실 인증샷 촬영 제출<br>
+            패션왕 1명 선정 → <strong>50,000P</strong> 지급
+          </div>
+          <div class="saf-card-btn disabled">경기 당일 진행</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 스코어 내기 현황 -->
+    <div class="summary" style="margin-top:16px;">
+      <div class="stat-card"><div class="s-ico">🎫</div><div class="s-val" id="safTotalBets">–</div><div class="s-lab">총 배팅 수</div></div>
+      <div class="stat-card"><div class="s-ico">💰</div><div class="s-val" id="safTotalPool">–</div><div class="s-lab">예상 상금 풀</div></div>
+      <div class="stat-card"><div class="s-ico">👥</div><div class="s-val" id="safTotalPeople">–</div><div class="s-lab">참여 인원</div></div>
+      <div class="stat-card"><div class="s-ico">🏅</div><div class="s-val-sm" id="safTopBettor">–</div><div class="s-lab">최다 배팅자</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">🎯 스코어별 현황</div>
+        <div class="sec-badge">KOR : SAF</div>
+      </div>
+      <div class="score-list" id="safScoreList">
+        <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-weight:600;">배팅 데이터 불러오는 중...</div>
+      </div>
+    </div>
+
+    <!-- 번외게임 현황 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">🎲 번외게임 참여 현황</div>
+        <div class="sec-badge green">집계중</div>
+      </div>
+      <div class="stats-wrap">
+        <table class="stats-table">
+          <thead><tr>
+            <th style="text-align:left">이름</th>
+            <th>①킥오프</th>
+            <th>②코너킥</th>
+            <th>③옐로카드</th>
+            <th>④전반전</th>
+            <th>⑤양팀득점</th>
+            <th>보너스(분)</th>
+          </tr></thead>
+          <tbody id="safBonusBody">
+            <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted);">참여 데이터 불러오는 중...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /panel-2 -->
 
   <div class="foot">주만사 사내 이벤트 · FIFA World Cup 2026™ · 잃어도 웃고, 따도 자랑 안 하기</div>
 
@@ -611,6 +733,10 @@ const CZE_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtOe2jRbxEvR
 const MEX_WIN_KEY       = '0:1';
 const MEX_WINNER_PAYOUT = 45000;
 const MEX_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSB-rOrPYVzpji9K3orjyttQv5zIrXNjsmaAqPDgFC9_ZjuQB8uiospwo23597AaeMKOYN27MfdrhPv/pub?output=csv';
+
+const SAF_SHEET       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRFDvn2PSLmr8nVd5ckLHmmqset8Z5wI6G8sITK0vXiiMmcifGw8gk1wHdCZQ-5mTPgkysIDk_cRMrx/pub?output=csv';
+const SAF_BONUS_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRll4jNdUhknyDMXajnMp4lMjqHBTH7W_h1uhbsJJw00y-3MPcFu5uzjARjP4sOlXLMgFr5pJrzqMvz/pub?output=csv';
+const SAF_DEADLINE    = new Date('2026-06-25T09:00:00+09:00');
 
 const CZE_FALLBACK = [
   ["이현우",2,2],["성수환",3,1],["김태현",1,0],["박찬서 (전직 축구 분석가)",1,0],["정인서",1,0],
@@ -682,6 +808,30 @@ function getInitialTab() {
   if (location.hash === '#match3') return 2;
   return 0;
 }
+
+/* ─── 남아공 카운트다운 ─── */
+function tickSafCountdown() {
+  const diff = Math.floor((SAF_DEADLINE - new Date()) / 1000);
+  const timer = document.getElementById('safTimer');
+  if (!timer) return;
+  if (diff <= 0) {
+    timer.innerHTML = '<div class="cd-closed">⛔ 배팅이 마감되었습니다</div>';
+    const pill = document.getElementById('safTabPill');
+    if (pill) { pill.textContent = '마감'; pill.className = 'tab-pill done'; }
+    return;
+  }
+  const d = Math.floor(diff / 86400);
+  const h = Math.floor((diff % 86400) / 3600);
+  const m = Math.floor((diff % 3600) / 60);
+  const s = diff % 60;
+  const p = n => String(n).padStart(2, '0');
+  document.getElementById('scd-d').textContent = d;
+  document.getElementById('scd-h').textContent = p(h);
+  document.getElementById('scd-m').textContent = p(m);
+  document.getElementById('scd-s').textContent = p(s);
+}
+setInterval(tickSafCountdown, 1000);
+tickSafCountdown();
 
 /* ─── 체코전 렌더 ─── */
 function renderCze(DATA) {
@@ -829,6 +979,87 @@ function renderMex(DATA) {
     </div>`).join('');
 }
 
+/* ─── 남아공 스코어 내기 렌더 ─── */
+function renderSafScore(DATA) {
+  const total  = DATA.length;
+  const pool   = total * BET_AMOUNT;
+  const people = new Set(DATA.map(r => r[0])).size;
+
+  document.getElementById('safTotalBets').textContent   = total + ' 건';
+  document.getElementById('safTotalPool').textContent   = pool.toLocaleString() + ' 원';
+  document.getElementById('safTotalPeople').textContent = people + ' 명';
+
+  const cnt = {};
+  DATA.forEach(([n]) => { cnt[n] = (cnt[n] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById('safTopBettor').textContent = top ? top[0] + ' (' + top[1] + '건)' : '–';
+
+  if (!total) {
+    document.getElementById('safScoreList').innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-weight:600;">아직 배팅 데이터가 없습니다</div>';
+    return;
+  }
+  const map = {};
+  DATA.forEach(([n, k, s]) => {
+    const key = k + ':' + s;
+    if (!map[key]) map[key] = { count: 0, names: [] };
+    map[key].count++; map[key].names.push(n);
+  });
+  const arr = Object.entries(map).map(([score, v]) => ({
+    score, count: v.count, names: v.names.join(', '),
+    payout: Math.floor(pool / v.count)
+  })).sort((a, b) => b.count - a.count);
+
+  const maxC = arr[0].count;
+  document.getElementById('safScoreList').innerHTML = arr.map(r => `
+    <div class="score-row">
+      <div class="sc-score">${r.score}<small>KOR : SAF</small></div>
+      <div class="sc-count"><span class="n">${r.count}</span></div>
+      <div>
+        <div class="sc-bar"><span style="width:${Math.round(r.count / maxC * 100)}%"></span></div>
+        <div class="sc-names">${r.names}</div>
+      </div>
+      <div class="sc-payout">
+        <div class="p">${r.payout.toLocaleString()}원</div>
+        <div class="pl">적중 시 1인</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ─── 남아공 번외게임 시트 fetch ─── */
+async function fetchBonusSheet(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error();
+    const txt = await res.text();
+    const lines = txt.trim().split('\n');
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+      if (!cols[1]) continue;
+      rows.push([cols[1], cols[2]||'–', cols[3]||'–', cols[4]||'–', cols[5]||'–', cols[6]||'–', cols[7]||'–']);
+    }
+    return rows;
+  } catch (e) { return []; }
+}
+
+/* ─── 남아공 번외게임 렌더 ─── */
+function renderSafBonus(DATA) {
+  if (!DATA.length) {
+    document.getElementById('safBonusBody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted);">아직 참여 데이터가 없습니다</td></tr>';
+    return;
+  }
+  document.getElementById('safBonusBody').innerHTML = DATA.map(r => `
+    <tr>
+      <td style="text-align:left;font-weight:700;">${r[0]}</td>
+      <td>${r[1]}</td>
+      <td>${r[2]}</td>
+      <td>${r[3]}</td>
+      <td>${r[4]}</td>
+      <td>${r[5]}</td>
+      <td>${r[6]}</td>
+    </tr>`).join('');
+}
+
 /* ─── 합산 토토박사 순위 ─── */
 function renderCombinedStats(czeData, mexData) {
   const persons = {};
@@ -870,13 +1101,17 @@ async function init() {
   const initialTab = getInitialTab();
   if (initialTab !== 0) showTab(initialTab);
 
-  const [czeRows, mexRows] = await Promise.all([
+  const [czeRows, mexRows, safRows, safBonusRows] = await Promise.all([
     fetchSheet(CZE_SHEET, CZE_FALLBACK, 1, 2, 3),
-    fetchSheet(MEX_SHEET, MEX_FALLBACK, 6, 1, 2)
+    fetchSheet(MEX_SHEET, MEX_FALLBACK, 6, 1, 2),
+    fetchSheet(SAF_SHEET, [], 1, 2, 3),
+    fetchBonusSheet(SAF_BONUS_SHEET)
   ]);
   renderCze(czeRows);
   renderMex(mexRows);
   renderCombinedStats(czeRows, mexRows);
+  renderSafScore(safRows);
+  renderSafBonus(safBonusRows);
 }
 
 init();
