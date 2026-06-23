@@ -288,6 +288,11 @@ body {
 .saf-card-btn.disabled { background:var(--muted); cursor:default; pointer-events:none; }
 @media(max-width:720px){ .saf-game-cards { grid-template-columns:1fr; } .saf-game-card img { height:200px; } }
 
+/* ── 라이트박스 ── */
+.lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:9999; cursor:pointer; align-items:center; justify-content:center; padding:20px; }
+.lightbox.open { display:flex; }
+.lightbox img { max-width:100%; max-height:90vh; border-radius:12px; box-shadow:0 8px 48px rgba(0,0,0,.7); cursor:default; }
+
 .foot { text-align:center; font-size:11px; color:var(--muted); margin-top:28px; font-weight:600; letter-spacing:.5px; }
 
 /* ── 반응형 ── */
@@ -500,7 +505,7 @@ body {
         <h2>🎲 번외게임 결과</h2>
         <div class="bonus-badge">5문제 완벽 적중</div>
       </div>
-      <img src="bonus-game.png" alt="번외게임 안내" style="width:100%;border-radius:10px;margin-bottom:14px;display:block;">
+      <img src="bonus-game.png" alt="번외게임 안내" style="width:100%;border-radius:10px;margin-bottom:14px;display:block;cursor:pointer;" onclick="openLightbox(this.src)">
       <div class="bonus-games">
         <div class="bonus-q correct">
           <div class="bq-num">①</div>
@@ -543,7 +548,7 @@ body {
         <div class="fashion-badge">2002 감성 충만</div>
       </div>
       <div class="fashion-winner-card">
-        <img src="fashion-king.png" alt="2026 주만사 패션왕" style="width:100%;max-width:400px;border-radius:10px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;">
+        <img src="fashion-king.png" alt="2026 주만사 패션왕" style="width:100%;max-width:400px;border-radius:10px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;cursor:pointer;" onclick="openLightbox(this.src)">
         <div class="fw-quote">"패션왕? 그거 제가 했습니다." 👗✨</div>
         <div class="fw-name">정인서 파트장</div>
         <div class="fw-point">+50,000 복지포인트</div>
@@ -634,7 +639,7 @@ body {
     <!-- 3가지 이벤트 참여 카드 -->
     <div class="saf-game-cards">
       <div class="saf-game-card">
-        <img src="saf-bet.png" alt="스코어 내기">
+        <img src="saf-bet.png" alt="스코어 내기" onclick="openLightbox(this.src)" style="cursor:pointer;">
         <div class="saf-card-body">
           <div class="saf-card-title">🏆 스코어 내기</div>
           <div class="saf-card-desc">
@@ -647,7 +652,7 @@ body {
         </div>
       </div>
       <div class="saf-game-card">
-        <img src="saf-bonus.png" alt="번외게임">
+        <img src="saf-bonus.png" alt="번외게임" onclick="openLightbox(this.src)" style="cursor:pointer;">
         <div class="saf-card-body">
           <div class="saf-card-title">🎲 번외게임 (퀴즈)</div>
           <div class="saf-card-desc">
@@ -660,7 +665,7 @@ body {
         </div>
       </div>
       <div class="saf-game-card">
-        <img src="saf-fashion.png" alt="패션왕 선발전">
+        <img src="saf-fashion.png" alt="패션왕 선발전" onclick="openLightbox(this.src)" style="cursor:pointer;">
         <div class="saf-card-body">
           <div class="saf-card-title">👑 패션왕 선발전</div>
           <div class="saf-card-desc">
@@ -719,6 +724,10 @@ body {
   </div><!-- /panel-2 -->
 
   <div class="foot">주만사 사내 이벤트 · FIFA World Cup 2026™ · 잃어도 웃고, 따도 자랑 안 하기</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
+</div>
 
 </div><!-- /wrap -->
 
@@ -1115,6 +1124,17 @@ async function init() {
 }
 
 init();
+
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
 </html>
