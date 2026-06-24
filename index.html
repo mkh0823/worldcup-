@@ -1075,7 +1075,7 @@ async function fetchBonusSheet(url) {
     const rows = [];
     for (let i = 1; i < lines.length; i++) {
       const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
-      if (!cols[1]) continue;
+      if (!cols[1] || cols[1].includes('테스트') || cols[1].includes('test')) continue;
       rows.push([cols[1], cols[2]||'–', cols[3]||'–', cols[4]||'–', cols[5]||'–', cols[6]||'–', cols[7]||'–']);
     }
     return rows;
@@ -1162,18 +1162,26 @@ let newsItems = [], newsIdx = 0, newsTimer;
 
 async function loadNews() {
   try {
-    const rss = 'https://news.google.com/rss/search?q=' + encodeURIComponent('대한민국 남아공 월드컵 2026') + '&hl=ko&gl=KR&ceid=KR:ko';
-    const api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss) + '&count=6';
-    const res = await fetch(api);
+    const rss = 'https://news.google.com/rss/search?q=' + encodeURIComponent('한국 남아공 월드컵 2026') + '&hl=ko&gl=KR&ceid=KR:ko';
+    const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rss);
+    const res = await fetch(proxy);
     const data = await res.json();
-    if (data.status === 'ok' && data.items && data.items.length) {
-      newsItems = data.items.slice(0, 6);
-      document.getElementById('newsDots').innerHTML = newsItems.map((_, i) =>
-        `<button class="news-dot${i === 0 ? ' active' : ''}" onclick="goNews(${i})"></button>`
-      ).join('');
-      renderNews();
-      newsTimer = setInterval(() => moveNews(1), 6000);
-    } else { throw new Error(); }
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'application/xml');
+    const itemEls = [...xml.querySelectorAll('item')].slice(0, 6);
+    if (!itemEls.length) throw new Error();
+    newsItems = itemEls.map(el => ({
+      title: el.querySelector('title')?.textContent || '',
+      link:  el.querySelector('link')?.textContent || '#',
+      pubDate: el.querySelector('pubDate')?.textContent || '',
+      source: el.querySelector('source')?.textContent || '뉴스',
+      description: el.querySelector('description')?.textContent || ''
+    }));
+    document.getElementById('newsDots').innerHTML = newsItems.map((_, i) =>
+      `<button class="news-dot${i === 0 ? ' active' : ''}" onclick="goNews(${i})"></button>`
+    ).join('');
+    renderNews();
+    newsTimer = setInterval(() => moveNews(1), 6000);
   } catch(e) {
     document.getElementById('newsSlider').innerHTML =
       '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">뉴스를 불러올 수 없습니다</div>';
