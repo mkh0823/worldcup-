@@ -288,6 +288,9 @@ body {
 .saf-card-btn.disabled { background:var(--muted); cursor:default; pointer-events:none; }
 @media(max-width:720px){ .saf-game-cards { grid-template-columns:1fr; } .saf-game-card img { height:200px; } }
 
+/* ── VIP 픽 ── */
+.pick-chip { display:inline-block; background:var(--navy); color:#fff; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; padding:3px 9px; border-radius:4px; margin:2px 2px; letter-spacing:.5px; }
+
 /* ── 뉴스 캐러셀 ── */
 .news-wrap { display:flex; align-items:center; gap:10px; }
 .news-arrow { background:var(--dark); color:#fff; border:none; width:38px; height:38px; border-radius:50%; font-size:24px; font-weight:300; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:background .2s; }
@@ -709,6 +712,27 @@ body {
       </div>
       <div class="score-list" id="safScoreList">
         <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-weight:600;">배팅 데이터 불러오는 중...</div>
+      </div>
+    </div>
+
+    <!-- 지난 배팅 적중자 픽 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">🔮 지난 배팅 적중자 픽</div>
+        <div class="sec-badge">체코 + 멕시코 적중자</div>
+      </div>
+      <div class="stats-wrap">
+        <table class="stats-table">
+          <thead><tr>
+            <th style="text-align:left">이름</th>
+            <th>누적 상금</th>
+            <th>적중률</th>
+            <th style="text-align:left">남아공 픽</th>
+          </tr></thead>
+          <tbody id="vipPicksBody">
+            <tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted);">데이터 불러오는 중...</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -1152,10 +1176,55 @@ async function init() {
   renderCombinedStats(czeRows, mexRows);
   renderSafScore(safRows);
   renderSafBonus(safBonusRows);
+  renderVIPPicks(czeRows, mexRows, safRows);
   loadNews();
 }
 
 init();
+
+/* ─── 지난 배팅 적중자 픽 ─── */
+function renderVIPPicks(czeData, mexData, safData) {
+  // 체코+멕시코 적중자 계산
+  const persons = {};
+  const get = name => { if (!persons[name]) persons[name] = { czeBets: [], mexBets: [] }; return persons[name]; };
+  czeData.forEach(([n, k, c]) => get(n).czeBets.push(k + ':' + c));
+  mexData.forEach(([n, k, m]) => get(n).mexBets.push(k + ':' + m));
+
+  const prevWinners = {};
+  Object.entries(persons).forEach(([name, p]) => {
+    const czeHits = p.czeBets.filter(b => b === CZE_WIN_KEY).length;
+    const mexHits = p.mexBets.filter(b => b === MEX_WIN_KEY).length;
+    if (czeHits === 0 && mexHits === 0) return;
+    const totalBets = p.czeBets.length + p.mexBets.length;
+    const hits = czeHits + mexHits;
+    const prize = (czeHits > 0 ? CZE_WINNER_PAYOUT : 0) + (mexHits > 0 ? MEX_WINNER_PAYOUT : 0);
+    prevWinners[name] = { prize, rate: Math.round(hits / totalBets * 100), hits, totalBets };
+  });
+
+  // 남아공 배팅 픽 수집
+  const safBets = {};
+  safData.forEach(([n, k, s]) => { if (!safBets[n]) safBets[n] = []; safBets[n].push(k + ':' + s); });
+
+  // 적중자 중 남아공 배팅한 사람만
+  const rows = Object.entries(prevWinners)
+    .filter(([name]) => safBets[name] && safBets[name].length)
+    .map(([name, st]) => ({ name, ...st, picks: safBets[name] }))
+    .sort((a, b) => b.prize - a.prize);
+
+  if (!rows.length) {
+    document.getElementById('vipPicksBody').innerHTML =
+      '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted);">아직 배팅 데이터가 없습니다</td></tr>';
+    return;
+  }
+  const medals = ['🥇','🥈','🥉'];
+  document.getElementById('vipPicksBody').innerHTML = rows.map((r, i) => `
+    <tr>
+      <td style="text-align:left;font-weight:700;">${medals[i] || ''} ${r.name}</td>
+      <td style="color:var(--green);font-weight:800;font-family:'Barlow Condensed',sans-serif;font-size:15px;">${r.prize.toLocaleString()}원</td>
+      <td>${r.rate}%<span style="font-size:10px;color:var(--muted);margin-left:3px;">(${r.hits}/${r.totalBets})</span></td>
+      <td style="text-align:left;">${r.picks.map(p => `<span class="pick-chip">${p}</span>`).join('')}</td>
+    </tr>`).join('');
+}
 
 /* ─── 뉴스 캐러셀 ─── */
 let newsItems = [], newsIdx = 0, newsTimer;
