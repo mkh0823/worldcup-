@@ -290,6 +290,8 @@ body {
 
 /* ── VIP 픽 ── */
 .pick-chip { display:inline-block; background:var(--navy); color:#fff; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; padding:3px 9px; border-radius:4px; margin:2px 2px; letter-spacing:.5px; }
+.cell-wrong { color:var(--muted); opacity:.35; text-decoration:line-through; }
+.cell-ok { color:var(--green); font-weight:700; }
 
 /* ── 뉴스 캐러셀 ── */
 .news-wrap { display:flex; align-items:center; gap:10px; }
@@ -802,6 +804,16 @@ const SAF_SHEET       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRFDvn2
 const SAF_BONUS_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRll4jNdUhknyDMXajnMp4lMjqHBTH7W_h1uhbsJJw00y-3MPcFu5uzjARjP4sOlXLMgFr5pJrzqMvz/pub?output=csv';
 const SAF_DEADLINE    = new Date('2026-06-25T09:00:00+09:00');
 
+// 번외게임 정답 (확인된 것만, null = 미공개)
+const SAF_BONUS_ANS = [
+  '대한민국', // ①킥오프
+  '대한민국', // ②코너킥
+  null,        // ③옐로카드 (미공개)
+  null,        // ④전반전 (미공개)
+  null,        // ⑤양팀득점 (미공개)
+  null,        // 보너스 (미공개)
+];
+
 const CZE_FALLBACK = [
   ["이현우",2,2],["성수환",3,1],["김태현",1,0],["박찬서 (전직 축구 분석가)",1,0],["정인서",1,0],
   ["정인서",2,1],["김원경",0,1],["이종현",2,1],["이종현",1,1],["이종현",3,1],
@@ -1119,15 +1131,21 @@ function renderSafBonus(DATA) {
     document.getElementById('safBonusBody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted);">아직 참여 데이터가 없습니다</td></tr>';
     return;
   }
+  function cell(val, ansIdx) {
+    const ans = SAF_BONUS_ANS[ansIdx];
+    if (ans === null) return `<td>${val}</td>`;
+    const ok = val.trim() === ans.trim();
+    return `<td class="${ok ? 'cell-ok' : 'cell-wrong'}">${val}</td>`;
+  }
   document.getElementById('safBonusBody').innerHTML = DATA.map(r => `
     <tr>
       <td style="text-align:left;font-weight:700;">${r[0]}</td>
-      <td>${r[1]}</td>
-      <td>${r[2]}</td>
-      <td>${r[3]}</td>
-      <td>${r[4]}</td>
-      <td>${r[5]}</td>
-      <td>${r[6]}</td>
+      ${cell(r[1],0)}
+      ${cell(r[2],1)}
+      ${cell(r[3],2)}
+      ${cell(r[4],3)}
+      ${cell(r[5],4)}
+      ${cell(r[6],5)}
     </tr>`).join('');
 }
 
