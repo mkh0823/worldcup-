@@ -635,25 +635,31 @@ body {
       <div class="match-layout">
         <div class="match-team"><div class="t-flag">🇰🇷</div><div class="t-name">대한민국</div></div>
         <div class="score-center">
-          <div class="score-num">VS</div>
-          <div class="live-badge"><span class="live-dot"></span> 배팅 진행중</div>
+          <div class="score-num">0 : 1</div>
+          <div class="result-chip">남아공 승</div>
         </div>
         <div class="match-team"><div class="t-flag">🇿🇦</div><div class="t-name">남아공</div></div>
       </div>
-      <div class="countdown-box">
-        <div class="cd-label">⏰ 배팅 마감까지 (킥오프 1시간 전)</div>
-        <div class="cd-timer" id="safTimer">
-          <div class="cd-unit"><div class="cd-num" id="scd-d">--</div><div class="cd-lbl">일</div></div>
-          <div class="cd-unit"><div class="cd-num" id="scd-h">--</div><div class="cd-lbl">시간</div></div>
-          <div class="cd-unit"><div class="cd-num" id="scd-m">--</div><div class="cd-lbl">분</div></div>
-          <div class="cd-unit"><div class="cd-num" id="scd-s">--</div><div class="cd-lbl">초</div></div>
-        </div>
+      <div class="countdown-box" style="padding:10px 0;">
+        <div class="cd-label" style="color:var(--gold-y);font-size:15px;font-weight:800;">⚽ 경기 종료 · 남아공 1 : 0 대한민국</div>
       </div>
       <div class="hero-footer">
         2026 FIFA World Cup™ <span class="hero-divider">·</span>
         2026.06.25 (수) 10:00 KST <span class="hero-divider">·</span>
         Group A 최종전
       </div>
+    </div>
+
+    <div class="winner-section">
+      <div class="winner-header">
+        <h2>🏆 당첨자 발표</h2>
+        <div class="win-score-chip">0 : 1 정답 (KOR:SAF)</div>
+      </div>
+      <div class="winners-grid">
+        <div class="winner-card"><div class="wname">안민찬</div><div class="wamount">85,000원</div><div class="wlabel">당첨 🎉</div></div>
+        <div class="winner-card"><div class="wname">엄용태</div><div class="wamount">85,000원</div><div class="wlabel">당첨 🎉</div></div>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px;">총 34건 배팅 · 170,000원 풀 · 2인 적중</div>
     </div>
 
     <!-- 3가지 이벤트 참여 카드 -->
@@ -741,8 +747,11 @@ body {
     <!-- 번외게임 현황 -->
     <div class="section">
       <div class="section-head">
-        <div class="section-title">🎲 번외게임 참여 현황</div>
-        <div class="sec-badge green">집계중</div>
+        <div class="section-title">🎲 번외게임 결과</div>
+        <div class="sec-badge">최종 정산</div>
+      </div>
+      <div class="winners-grid" id="safBonusWinners" style="margin-bottom:16px;">
+        <div style="grid-column:1/-1;text-align:center;padding:12px;color:var(--muted);font-size:13px;">집계 중...</div>
       </div>
       <div class="stats-wrap">
         <table class="stats-table">
@@ -803,15 +812,29 @@ const MEX_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSB-rOrPYVzpj
 const SAF_SHEET       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRFDvn2PSLmr8nVd5ckLHmmqset8Z5wI6G8sITK0vXiiMmcifGw8gk1wHdCZQ-5mTPgkysIDk_cRMrx/pub?output=csv';
 const SAF_BONUS_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRll4jNdUhknyDMXajnMp4lMjqHBTH7W_h1uhbsJJw00y-3MPcFu5uzjARjP4sOlXLMgFr5pJrzqMvz/pub?output=csv';
 const SAF_DEADLINE    = new Date('2026-06-25T09:00:00+09:00');
+const SAF_WIN_KEY     = '0:1';
+
+const SAF_FALLBACK = [
+  ["이동헌",2,0],["이종현",2,0],["이종현",3,1],["문경환",1,0],
+  ["고건",2,1],["송승근",2,1],["김성환",3,0],["김성환",4,0],["김성환",2,0],
+  ["박찬서",1,0],["김하얀",2,1],["이유나",1,1],["성수환",3,1],
+  ["문경환",3,1],["문경환",3,0],
+  ["안민찬",2,1],["안민찬",1,2],["안민찬",1,0],["안민찬",0,1],["안민찬",0,2],
+  ["엄용태",0,0],["엄용태",1,0],["엄용태",0,1],["엄용태",1,1],["엄용태",2,1],
+  ["신건웅",1,1],["신건웅",3,0],["진솔",2,1],
+  ["이현우",2,1],["이현우",1,1],
+  ["정인서",1,0],["정인서",1,1],
+  ["박우림",3,1],["박우림",2,0]
+];
 
 // 번외게임 정답 (확인된 것만, null = 미공개)
 const SAF_BONUS_ANS = [
   '대한민국', // ①킥오프
   '대한민국', // ②코너킥
-  null,        // ③옐로카드 (미공개)
-  '무승부',    // ④전반전
-  null,        // ⑤양팀득점 (미공개)
-  null,        // 보너스 (미공개)
+  '남아공',        // ③옐로카드
+  '무승부',        // ④전반전
+  'X',             // ⑤양팀득점
+  ['10', '10분'],  // 보너스 (둘 다 정답)
 ];
 
 const CZE_FALLBACK = [
@@ -1084,25 +1107,29 @@ function renderSafScore(DATA) {
     if (!map[key]) map[key] = { count: 0, names: [] };
     map[key].count++; map[key].names.push(n);
   });
+  const winEntry = map[SAF_WIN_KEY];
+  const winPayout = winEntry ? Math.floor(pool / winEntry.count) : 0;
   const arr = Object.entries(map).map(([score, v]) => ({
     score, count: v.count, names: v.names.join(', '),
-    payout: Math.floor(pool / v.count)
+    payout: winPayout
   })).sort((a, b) => b.count - a.count);
 
   const maxC = arr[0].count;
-  document.getElementById('safScoreList').innerHTML = arr.map(r => `
-    <div class="score-row">
-      <div class="sc-score">${r.score}<small>KOR : SAF</small></div>
+  document.getElementById('safScoreList').innerHTML = arr.map(r => {
+    const isWin = r.score === SAF_WIN_KEY;
+    return `<div class="score-row ${isWin ? 'winner-score' : ''}">
+      <div class="sc-score">${r.score}${isWin ? ' ✅' : ''}<small>KOR : SAF</small></div>
       <div class="sc-count"><span class="n">${r.count}</span></div>
       <div>
-        <div class="sc-bar"><span style="width:${Math.round(r.count / maxC * 100)}%"></span></div>
+        <div class="sc-bar${isWin ? ' win' : ''}"><span style="width:${Math.round(r.count / maxC * 100)}%"></span></div>
         <div class="sc-names">${r.names}</div>
       </div>
       <div class="sc-payout">
-        <div class="p">${r.payout.toLocaleString()}원</div>
-        <div class="pl">적중 시 1인</div>
+        <div class="p${isWin ? ' win' : ''}">${isWin ? r.payout.toLocaleString() : '–'}원</div>
+        <div class="pl">${isWin ? '실제 수령액' : '낙첨'}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 /* ─── 남아공 번외게임 시트 fetch (8초 타임아웃) ─── */
@@ -1131,12 +1158,45 @@ function renderSafBonus(DATA) {
     document.getElementById('safBonusBody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted);">아직 참여 데이터가 없습니다</td></tr>';
     return;
   }
+  const bonusOkFn = v => ['10', '10분'].includes(v.trim());
   function cell(val, ansIdx) {
     const ans = SAF_BONUS_ANS[ansIdx];
     if (ans === null) return `<td>${val}</td>`;
-    const ok = val.trim() === ans.trim();
+    const ok = ansIdx === 5 ? bonusOkFn(val) : val.trim() === ans.trim();
     return `<td class="${ok ? 'cell-ok' : 'cell-wrong'}">${val}</td>`;
   }
+
+  // 번외게임 당첨자 계산
+  const winnerMap = {};
+  DATA.forEach(r => {
+    const name = r[0];
+    const main = [
+      r[1].trim() === SAF_BONUS_ANS[0],
+      r[2].trim() === SAF_BONUS_ANS[1],
+      r[3].trim() === SAF_BONUS_ANS[2],
+      r[4].trim() === SAF_BONUS_ANS[3],
+      r[5].trim() === SAF_BONUS_ANS[4],
+    ];
+    const score5 = main.filter(Boolean).length;
+    const bOk = bonusOkFn(r[6]);
+    const prize = score5 === 5 ? 50000 : (score5 === 4 && bOk ? 30000 : 0);
+    if (!winnerMap[name] || prize > (winnerMap[name].prize || 0))
+      winnerMap[name] = { name, score5, bOk, prize };
+  });
+  const bonusWinners = Object.values(winnerMap).filter(w => w.prize > 0)
+    .sort((a, b) => b.prize - a.prize);
+
+  const bonusWinHtml = bonusWinners.length
+    ? bonusWinners.map(w => `
+        <div class="winner-card">
+          <div class="wname">${w.name}</div>
+          <div class="wamount">${w.prize.toLocaleString()}P</div>
+          <div class="wlabel">${w.score5 === 5 ? '5/5 완벽 적중 🎯' : '4/5 + 보너스 🎲'}</div>
+        </div>`).join('')
+    : '<div style="grid-column:1/-1;text-align:center;padding:12px;color:var(--muted);font-size:13px;">이번 번외게임 당첨자 없음 😢</div>';
+
+  document.getElementById('safBonusWinners').innerHTML = bonusWinHtml;
+
   document.getElementById('safBonusBody').innerHTML = DATA.map(r => `
     <tr>
       <td style="text-align:left;font-weight:700;">${r[0]}</td>
@@ -1199,7 +1259,7 @@ async function init() {
   const [czeRows, mexRows, safRows, safBonusRows] = await Promise.all([
     fetchSheet(CZE_SHEET, CZE_FALLBACK, 1, 2, 3),
     fetchSheet(MEX_SHEET, MEX_FALLBACK, 6, 1, 2),
-    fetchSheet(SAF_SHEET, [], 1, 2, 3),
+    fetchSheet(SAF_SHEET, SAF_FALLBACK, 1, 2, 3),
     fetchBonusSheet(SAF_BONUS_SHEET)
   ]);
 
